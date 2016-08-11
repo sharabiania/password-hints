@@ -1,5 +1,8 @@
 package com.alisharabiani;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 public final class PasswordHintContract {
@@ -8,12 +11,20 @@ public final class PasswordHintContract {
     public PasswordHintContract() {}
 
     /* Inner class that defines the table contents */
-    public static abstract class FeedEntry implements BaseColumns {
+    public static abstract class HintEntry implements BaseColumns {
         public static final String TABLE_NAME = "entry";
-        public static final String COLUMN_NAME_ENTRY_ID = "id";
+      //  public static final String COLUMN_NAME_ENTRY_ID = "id";
         public static final String COLUMN_NAME_ACCOUNT = "account";
         public static final String COLUMN_NAME_USERNAME = "username";
         public static final String COLUMN_NAME_PASSWORDHINT = "passwordhint";
 
+
+
+
+
     }
+
+
+
 }
+
