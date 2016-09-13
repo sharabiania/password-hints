@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setText("Testing");
         if (cursor.moveToFirst()){
             do{
-                String data = cursor.getString(cursor.getColumnIndex("account"));
+                String data = cursor.getString(cursor.getColumnIndex("account")) + " --- ";
                 // do what ever you want here
                 textView.append(data);
 

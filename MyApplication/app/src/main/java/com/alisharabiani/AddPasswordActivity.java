@@ -35,7 +35,7 @@ public class AddPasswordActivity extends AppCompatActivity {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-      //  values.put(PasswordHintContract.HintEntry.COLUMN_NAME_ENTRY_ID, id);
+     //   values.put(PasswordHintContract.HintEntry.COLUMN_NAME_ID, id);
         values.put(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT, account);
         values.put(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME, username);
         values.put(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT, passwordHint);
@@ -46,6 +46,7 @@ public class AddPasswordActivity extends AppCompatActivity {
                 PasswordHintContract.HintEntry.TABLE_NAME,
                 null,
                 values);
+        this.finish();
     }
 
     @Override

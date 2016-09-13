@@ -18,7 +18,7 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + PasswordHintContract.HintEntry.TABLE_NAME + " (" +
                     PasswordHintContract.HintEntry._ID + " INTEGER PRIMARY KEY," +
-                  //  PasswordHintContract.HintEntry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
+                  //  PasswordHintContract.HintEntry.COLUMN_NAME_ID + TEXT_TYPE + COMMA_SEP +
                     PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT + TEXT_TYPE + COMMA_SEP +
                     PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA_SEP +
                     PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT + TEXT_TYPE  +
