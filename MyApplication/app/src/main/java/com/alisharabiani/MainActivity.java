@@ -1,6 +1,12 @@
 package com.alisharabiani;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.ListActivity;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -8,12 +14,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.*;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView textView = (TextView) findViewById(R.id.textView);
-        setSupportActionBar(toolbar);
+      //  setSupportActionBar(toolbar);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -36,46 +43,63 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//
 
+//        // read from database
+//        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+
+//        textView.setText("Testing");
+//        if (cursor.moveToFirst()){
+//            do{
+//                String data = cursor.getString(cursor.getColumnIndex("account")) + " --- ";
+//                // do what ever you want here
+//                textView.append(data);
+//
+//            }while(cursor.moveToNext());
+//        }
+
+        displayListView();
+    }
+
+    private void displayListView() {
         HintEntryDbHelper mDbHelper = new HintEntryDbHelper(getApplicationContext());
-        // read from database
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor = mDbHelper.getAllRows();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                PasswordHintContract.HintEntry._ID,
-                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
-                PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
-                PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT
-
+        // Desired columns to be bound.
+        String[] columns = new String[] {
+            PasswordHintContract.HintEntry._ID,
+            PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
+            PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
+            PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
         };
 
-        // How you want the results sorted in the resulting Cursor
-//        String sortOrder =
-//                PasswordHintContract.HintEntry.COLUMN_NAME_UPDATED + " DESC";
+        // The XML defined view which the data will be bound to.
+        int[] to = new int[]{
+            R.id.Id,
+            R.id.account,
+            R.id.username,
+            R.id.passwordhint,
+        };
 
-        Cursor cursor = db.query(
-                PasswordHintContract.HintEntry.TABLE_NAME,  // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                 // The sort order
+        // Create the adapter using the cursor pointing to the desired data
+        // as well as the layout information.
+        SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(
+            this,
+            R.layout.record_info,
+            cursor,
+            columns,
+            to,
+            0
         );
 
-        textView.setText("Testing");
-        if (cursor.moveToFirst()){
-            do{
-                String data = cursor.getString(cursor.getColumnIndex("account")) + " --- ";
-                // do what ever you want here
-                textView.append(data);
+        ListView listView = (ListView) findViewById(R.id.listView1);
+        // Assign adapter to ListView.
+        listView.setAdapter(dataAdapter);
 
-            }while(cursor.moveToNext());
-        }
-        cursor.close();
 
+
+     //   cursor.close();
     }
 
     @Override
@@ -99,4 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

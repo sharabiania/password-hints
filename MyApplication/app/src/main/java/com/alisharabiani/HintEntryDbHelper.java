@@ -1,6 +1,7 @@
 package com.alisharabiani;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -43,6 +44,36 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
+    }
+
+    public Cursor getAllRows() {
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                PasswordHintContract.HintEntry._ID,
+                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
+                PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
+                PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT
+
+        };
+
+        // How you want the results sorted in the resulting Cursor
+//        String sortOrder =
+//                PasswordHintContract.HintEntry.COLUMN_NAME_UPDATED + " DESC";
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(
+                PasswordHintContract.HintEntry.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        return cursor;
     }
 }
 
