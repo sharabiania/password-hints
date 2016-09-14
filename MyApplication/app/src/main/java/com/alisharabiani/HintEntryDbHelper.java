@@ -2,6 +2,7 @@ package com.alisharabiani;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -47,6 +48,7 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllRows() {
+
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -74,6 +76,38 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
         );
 
         return cursor;
+    }
+
+    public Cursor getAllRows(String inputText) throws SQLException{
+        SQLiteDatabase mDb = getReadableDatabase();
+        Cursor mCursor = null;
+        if (inputText == null  ||  inputText.length () == 0)  {
+            mCursor = mDb.query(
+                    PasswordHintContract.HintEntry.TABLE_NAME
+                    , new String[] {
+                            PasswordHintContract.HintEntry._ID,
+                            PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
+                            PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
+                            PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
+                        },
+                    null, null, null, null, null);
+
+        }
+        else {
+            mCursor = mDb.query(true, PasswordHintContract.HintEntry.TABLE_NAME,
+                    new String[] {
+                            PasswordHintContract.HintEntry._ID,
+                            PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
+                            PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
+                            PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
+                    },
+                    PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT + " like '%" + inputText + "%'", null,
+                    null, null, null, null);
+        }
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
     }
 }
 

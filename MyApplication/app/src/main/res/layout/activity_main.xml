@@ -8,10 +8,6 @@
         android:fitsSystemWindows="true"
         tools:context="com.alisharabiani.MainActivity">
 
-    <ListView
-            android:id="@+id/listView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
 
 
@@ -20,16 +16,29 @@
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+        <EditText
+                android:id="@+id/myFilter"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:hint="Search by account name"
+                android:gravity="center" >
+        </EditText>
+
+
 
     </android.support.design.widget.AppBarLayout>
 
 
+    <ListView
+            android:id="@+id/listView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myFilter"
+            android:layout_marginTop="20px"
+            android:padding="10px"
+    />
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
