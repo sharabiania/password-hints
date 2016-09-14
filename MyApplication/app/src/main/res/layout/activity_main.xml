@@ -12,6 +12,7 @@
 
 
     <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
@@ -19,11 +20,11 @@
         <EditText
                 android:id="@+id/myFilter"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:ems="10"
                 android:hint="Search by account name"
-                android:gravity="center" >
+                 >
         </EditText>
 
 
@@ -35,9 +36,9 @@
             android:id="@+id/listView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/myFilter"
-            android:layout_marginTop="20px"
-            android:padding="10px"
+            android:layout_below="@id/appBarLayout"
+            android:layout_margin="20dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
     />
 
     <android.support.design.widget.FloatingActionButton
@@ -46,6 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email"/>
+            android:src="@android:drawable/ic_input_add"/>
 
 </android.support.design.widget.CoordinatorLayout>

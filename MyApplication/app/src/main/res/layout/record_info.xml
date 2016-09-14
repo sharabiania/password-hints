@@ -34,5 +34,14 @@
             android:layout_below="@id/username"
 
     />
+    <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:id="@+id/button" android:layout_alignTop="@+id/Id" android:layout_alignEnd="@+id/Id"
+            android:singleLine="true"
+            android:focusable="false"
+    />
 
 </RelativeLayout>
