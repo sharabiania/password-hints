@@ -4,4 +4,6 @@
     <string name="account_label">Account</string>
     <string name="username_label">Username</string>
     <string name="hint_label">Password Hint</string>
+    <string name="modify">Modify</string>
+    <string name="delete">Delete</string>
 </resources>

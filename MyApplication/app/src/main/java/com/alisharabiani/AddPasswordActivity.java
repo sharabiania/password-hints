@@ -46,6 +46,7 @@ public class AddPasswordActivity extends AppCompatActivity {
                 PasswordHintContract.HintEntry.TABLE_NAME,
                 null,
                 values);
+
         this.finish();
     }
 

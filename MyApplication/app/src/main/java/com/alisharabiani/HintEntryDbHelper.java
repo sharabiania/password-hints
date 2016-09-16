@@ -20,7 +20,6 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + PasswordHintContract.HintEntry.TABLE_NAME + " (" +
                     PasswordHintContract.HintEntry._ID + " INTEGER PRIMARY KEY," +
-                  //  PasswordHintContract.HintEntry.COLUMN_NAME_ID + TEXT_TYPE + COMMA_SEP +
                     PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT + TEXT_TYPE + COMMA_SEP +
                     PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA_SEP +
                     PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT + TEXT_TYPE  +
@@ -78,6 +77,12 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    /**
+     * Get all rows in the table.
+     * @param inputText the search string.
+     * @return if search string is null, returns all rows; otherwise, the found records.
+     * @throws SQLException
+     */
     public Cursor getAllRows(String inputText) throws SQLException{
         SQLiteDatabase mDb = getReadableDatabase();
         Cursor mCursor = null;
@@ -108,6 +113,49 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
             mCursor.moveToFirst();
         }
         return mCursor;
+    }
+
+    /**
+     * Delete a record based by id.
+     * @param id id of the row to be deleted
+     */
+    public void deleteById(String id) {
+
+        // Define 'where' part of the query.
+        String selection = PasswordHintContract.HintEntry._ID + " = ? ";
+
+        // Specify arguments in placeholder order.
+        String[] selectionArgs = { id };
+
+        // Issue SQL statement.
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(PasswordHintContract.HintEntry.TABLE_NAME, selection, selectionArgs);
+        db.close();
+    }
+
+    /**
+     * Finds a record based by id.
+     * @param id id of the row to be returned.
+     */
+    public RecordModel findById(String id){
+        SQLiteDatabase db = getReadableDatabase();
+        String where = PasswordHintContract.HintEntry._ID + " = ?";
+        String[] whereArgs = { id };
+        Cursor cursor = db.query(PasswordHintContract.HintEntry.TABLE_NAME, null, where, whereArgs, null, null, null);
+        if(cursor != null){
+
+            cursor.moveToFirst();
+            String serviceName = cursor.getString(cursor.getColumnIndex(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT));
+            String username = cursor.getString(cursor.getColumnIndex(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME));
+
+            RecordModel model = new RecordModel();
+            model.setUsername(username);
+            model.setAccountName(serviceName);
+
+            return model;
+        }
+        else
+            return null;
     }
 }
 

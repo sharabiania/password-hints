@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 /**
  * Created by Ali Sharabiani on 2016-09-13.
@@ -120,9 +121,16 @@ public class ListViewLoader
         mAdapter.swapCursor(null);
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id){
-        // Do something when a list item is clicked.
-    }
+//    @Override
+//    public void onListItemClick(ListView l, View v, int position, long id){
+//        // Do something when a list item is clicked.
+//
+//        // Get the cursor, positioned to the corresponding row in the result set
+//        Cursor cursor = (Cursor) l.getItemAtPosition(position);
+//
+//        // Get the password hint from this row in the database.
+//        String hint = cursor.getString(cursor.getColumnIndexOrThrow(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT));
+//        Toast.makeText(getApplicationContext(), hint, Toast.LENGTH_SHORT).show();
+//    }
 
 }

@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10px"
->
+                android:padding="10px">
     <TextView
             android:id="@+id/Id"
             android:layout_width="match_parent"
@@ -34,14 +33,6 @@
             android:layout_below="@id/username"
 
     />
-    <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit"
-            android:id="@+id/button" android:layout_alignTop="@+id/Id" android:layout_alignEnd="@+id/Id"
-            android:singleLine="true"
-            android:focusable="false"
-    />
+
 
 </RelativeLayout>
