@@ -2,6 +2,7 @@ package com.alisharabiani;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,33 +22,60 @@ public class AddPasswordActivity extends AppCompatActivity {
         EditText usernameEditText = (EditText)findViewById(R.id.usernameEditText);
         EditText passwordHintEditText = (EditText)findViewById(R.id.passwordHintEditText);
 
-        String account = accountEditText.getText().toString();
-        String username = usernameEditText.getText().toString();
-        String passwordHint = passwordHintEditText.getText().toString();
+        String account = accountEditText.getText().toString().trim();
+        String username = usernameEditText.getText().toString().trim();
+        String passwordHint = passwordHintEditText.getText().toString().trim();
 
-        // Save to database.
+        // Validate input data.
+        boolean isValid = true;
 
+        if(account == null || account.isEmpty()) {
+            accountEditText.setError("Cannot be empty.");
+            isValid = false;
+        }
+        if(username == null || username.isEmpty()) {
+            usernameEditText.setError("Cannot be empty.");
+            isValid = false;
+        }
+        if(passwordHint == null || passwordHint.isEmpty()) {
+            passwordHintEditText.setError("Cannot be empty.");
+            isValid = false;
+        }
+        if(isValid == true) {
 
-        HintEntryDbHelper mDbHelper = new HintEntryDbHelper(getApplicationContext());
+            // Save to database.
+            HintEntryDbHelper mDbHelper = new HintEntryDbHelper(getApplicationContext());
 
-        // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            // Gets the data repository in write mode
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-     //   values.put(PasswordHintContract.HintEntry.COLUMN_NAME_ID, id);
-        values.put(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT, account);
-        values.put(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME, username);
-        values.put(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT, passwordHint);
+            // Create a new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId;
-        newRowId = db.insert(
-                PasswordHintContract.HintEntry.TABLE_NAME,
-                null,
-                values);
+            values.put(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT, account);
+            values.put(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME, username);
+            values.put(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT, passwordHint);
 
-        this.finish();
+            // Insert the new row, returning the primary key value of the new row
+            // it returns -1 if an error has occurred
+            long newRowId;
+            newRowId = db.insert(
+                    PasswordHintContract.HintEntry.TABLE_NAME,
+                    null,
+                    values);
+
+            Intent data = new Intent();
+
+            if (newRowId != -1) {
+                data.putExtra("isSuccessful", true);
+                setResult(RESULT_OK, data);
+            } else {
+                data.putExtra("isSuccessful", false);
+                setResult(RESULT_CANCELED, data);
+            }
+
+            finish();
+        }
     }
 
     @Override

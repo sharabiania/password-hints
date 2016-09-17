@@ -1,8 +1,7 @@
 package com.alisharabiani;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,15 +17,23 @@ public class MainActivity extends Activity {
 
     AlertDialog.Builder builder;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    SimpleCursorAdapter dataAdapter;
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    // The request code to start add a new row activity.
+    static final int ADD_ROW_REQUEST = 1;
 
+    Cursor cursor;
+
+    ListView listView;
+
+    HintEntryDbHelper mDbHelper;
+
+    private SimpleCursorAdapter buildDataAdapter(HintEntryDbHelper dbHelper) {
+        HintEntryDbHelper mDbHelper = dbHelper;
+        cursor = mDbHelper.getAllRows();
 
         // Desired columns to be bound.
-        String[] columns = new String[] {
+        String[] PROJECTION = new String[] {
                 PasswordHintContract.HintEntry._ID,
                 PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
                 PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
@@ -42,23 +49,30 @@ public class MainActivity extends Activity {
         };
 
 
-        final HintEntryDbHelper mDbHelper = new HintEntryDbHelper(getApplicationContext());
-        final Cursor cursor = mDbHelper.getAllRows();
         // Create the adapter using the cursor pointing to the desired data
         // as well as the layout information.
-        final SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(
+        dataAdapter = new SimpleCursorAdapter(
                 this,
                 R.layout.record_info,
                 cursor,
-                columns,
+                PROJECTION,
                 to,
                 0
         );
 
+        return dataAdapter;
+    }
 
-        final ListView listView = (ListView) findViewById(R.id.listView1);
-        // Assign adapter to ListView.
-        listView.setAdapter(dataAdapter);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mDbHelper = new HintEntryDbHelper(getApplicationContext());
+        listView = (ListView) findViewById(R.id.listView1);
+
+        listView.setAdapter(buildDataAdapter(mDbHelper));
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,6 +95,8 @@ public class MainActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing
                         mDbHelper.deleteById(String.valueOf(id));
+                        listView.setAdapter(buildDataAdapter(mDbHelper));
+                        Toast.makeText(getApplicationContext(), "Record has been deleted.", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setIcon(android.R.drawable.ic_delete);
@@ -89,9 +105,9 @@ public class MainActivity extends Activity {
                 RecordModel model = mDbHelper.findById(String.valueOf(id));
                 builder.setMessage(model.getAccountName() + "\n" + model.getUsername());
                 builder.create().show();
-                Toast.makeText(getApplicationContext(), "Record has been deleted.", Toast.LENGTH_SHORT).show();
-                dataAdapter.notifyDataSetChanged();
-                return false;
+
+
+                return true;
             }
         });
 
@@ -121,7 +137,6 @@ public class MainActivity extends Activity {
         });
 
 
-
         // Set click event for the floating button.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -129,11 +144,10 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, AddPasswordActivity.class);
-                MainActivity.this.startActivity(intent);
-                dataAdapter.notifyDataSetChanged();
+
+                startActivityForResult(intent, ADD_ROW_REQUEST);
             }
         });
-
 
 
         // Initialize the dialog builder.
@@ -141,6 +155,13 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == ADD_ROW_REQUEST) {
+            if(resultCode == RESULT_OK)
+            listView.setAdapter(buildDataAdapter(mDbHelper));
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,8 +184,5 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 }

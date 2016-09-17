@@ -130,7 +130,7 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
         // Issue SQL statement.
         SQLiteDatabase db = getWritableDatabase();
         db.delete(PasswordHintContract.HintEntry.TABLE_NAME, selection, selectionArgs);
-        db.close();
+        //db.close();
     }
 
     /**
