@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
+
 public class MainActivity extends Activity {
 
     AlertDialog.Builder builder;
@@ -34,7 +35,7 @@ public class MainActivity extends Activity {
 
         // Desired columns to be bound.
         String[] PROJECTION = new String[] {
-                PasswordHintContract.HintEntry._ID,
+              //  PasswordHintContract.HintEntry._ID,
                 PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
                 PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
                 PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
@@ -42,10 +43,10 @@ public class MainActivity extends Activity {
 
         // The XML defined view which the data will be bound to.
         int[] to = new int[]{
-                R.id.Id,
+         //       R.id.Id,
                 R.id.account,
                 R.id.username,
-                R.id.passwordhint,
+         //       R.id.passwordhint,
         };
 
 
@@ -73,6 +74,9 @@ public class MainActivity extends Activity {
 
         listView.setAdapter(buildDataAdapter(mDbHelper));
 
+
+        View emptyView = findViewById(R.id.empty_list_text);
+        listView.setEmptyView(emptyView);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

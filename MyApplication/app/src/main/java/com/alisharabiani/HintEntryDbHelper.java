@@ -71,7 +71,7 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
                 null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null                                 // The sort order
+                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT  // The sort order
         );
 
         return cursor;

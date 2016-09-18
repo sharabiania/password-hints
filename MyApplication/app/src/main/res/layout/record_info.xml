@@ -3,19 +3,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10px">
-    <TextView
-            android:id="@+id/Id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="column 1"
-    />
+    <!--<TextView-->
+            <!--android:id="@+id/Id"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="column 1"-->
+    <!--/>-->
 
     <TextView
             android:id="@+id/account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Id"
-
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimary"
     />
 
     <TextView
@@ -23,15 +25,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/account"
-
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:textSize="15sp"
     />
 
-    <TextView
-            android:id="@+id/passwordhint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/username"
-    />
+    <!--<TextView-->
+            <!--android:id="@+id/passwordhint"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/username"-->
+            <!--android:singleLine="true"-->
+    <!--/>-->
 
 
 </RelativeLayout>

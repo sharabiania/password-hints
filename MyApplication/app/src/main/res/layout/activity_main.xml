@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:ems="10"
-                android:hint="Search by account name"
+                android:hint="Search by service name"
                 android:maxLines="1"
                 >
         </EditText>
@@ -47,6 +47,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_input_add"/>
+            android:src="@android:drawable/ic_input_add"
+            android:tint="@color/colorAccent"
+            app:backgroundTint="@color/colorPrimary"
+    />
 
 </android.support.design.widget.CoordinatorLayout>
