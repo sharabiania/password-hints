@@ -13,7 +13,7 @@ public final class PasswordHintContract {
     /* Inner class that defines the table contents */
     public static abstract class HintEntry implements BaseColumns {
         public static final String TABLE_NAME = "entry";
-      //  public static final String COLUMN_NAME_ENTRY_ID = "id";
+      //  public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_ACCOUNT = "account";
         public static final String COLUMN_NAME_USERNAME = "username";
         public static final String COLUMN_NAME_PASSWORDHINT = "passwordhint";

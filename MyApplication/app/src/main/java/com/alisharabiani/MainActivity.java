@@ -1,81 +1,170 @@
 package com.alisharabiani;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.*;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.*;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends Activity {
+
+    AlertDialog.Builder builder;
+
+    SimpleCursorAdapter dataAdapter;
+
+    // The request code to start add a new row activity.
+    static final int ADD_ROW_REQUEST = 1;
+
+    Cursor cursor;
+
+    ListView listView;
+
+    HintEntryDbHelper mDbHelper;
+
+    private SimpleCursorAdapter buildDataAdapter(HintEntryDbHelper dbHelper) {
+        HintEntryDbHelper mDbHelper = dbHelper;
+        cursor = mDbHelper.getAllRows();
+
+        // Desired columns to be bound.
+        String[] PROJECTION = new String[] {
+              //  PasswordHintContract.HintEntry._ID,
+                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
+                PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
+                PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
+        };
+
+        // The XML defined view which the data will be bound to.
+        int[] to = new int[]{
+         //       R.id.Id,
+                R.id.account,
+                R.id.username,
+         //       R.id.passwordhint,
+        };
+
+
+        // Create the adapter using the cursor pointing to the desired data
+        // as well as the layout information.
+        dataAdapter = new SimpleCursorAdapter(
+                this,
+                R.layout.record_info,
+                cursor,
+                PROJECTION,
+                to,
+                0
+        );
+
+        return dataAdapter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView textView = (TextView) findViewById(R.id.textView);
-        setSupportActionBar(toolbar);
+        mDbHelper = new HintEntryDbHelper(getApplicationContext());
+        listView = (ListView) findViewById(R.id.listView1);
+
+        listView.setAdapter(buildDataAdapter(mDbHelper));
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        View emptyView = findViewById(R.id.empty_list_text);
+        listView.setEmptyView(emptyView);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent = new Intent(MainActivity.this, AddPasswordActivity.class);
-                MainActivity.this.startActivity(intent);
+            public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
+                // Get the cursor, positioned to the corresponding row in the result set
+                Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+
+                // Get the password hint from this row in the database.
+                String hint = cursor.getString(cursor.getColumnIndexOrThrow(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT));
+                Toast.makeText(getApplicationContext(), hint, Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        HintEntryDbHelper mDbHelper = new HintEntryDbHelper(getApplicationContext());
-        // read from database
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                PasswordHintContract.HintEntry._ID,
-                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
-                PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
-                PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
+                builder.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                        mDbHelper.deleteById(String.valueOf(id));
+                        listView.setAdapter(buildDataAdapter(mDbHelper));
+                        Toast.makeText(getApplicationContext(), "Record has been deleted.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setIcon(android.R.drawable.ic_delete);
+                builder.setCancelable(true);
+                builder.setTitle("Delete?");
+                RecordModel model = mDbHelper.findById(String.valueOf(id));
+                builder.setMessage(model.getAccountName() + "\n" + model.getUsername());
+                builder.create().show();
 
-        };
 
-        // How you want the results sorted in the resulting Cursor
-//        String sortOrder =
-//                PasswordHintContract.HintEntry.COLUMN_NAME_UPDATED + " DESC";
+                return true;
+            }
+        });
 
-        Cursor cursor = db.query(
-                PasswordHintContract.HintEntry.TABLE_NAME,  // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                 // The sort order
-        );
+        EditText myFilter = (EditText) findViewById(R.id.myFilter);
+        myFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        textView.setText("Testing");
-        if (cursor.moveToFirst()){
-            do{
-                String data = cursor.getString(cursor.getColumnIndex("account"));
-                // do what ever you want here
-                textView.append(data);
+            }
 
-            }while(cursor.moveToNext());
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataAdapter.getFilter().filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                return mDbHelper.getAllRows(constraint.toString());
+            }
+        });
+
+
+        // Set click event for the floating button.
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, AddPasswordActivity.class);
+
+                startActivityForResult(intent, ADD_ROW_REQUEST);
+            }
+        });
+
+
+        // Initialize the dialog builder.
+        builder = new AlertDialog.Builder(this);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == ADD_ROW_REQUEST) {
+            if(resultCode == RESULT_OK)
+            listView.setAdapter(buildDataAdapter(mDbHelper));
         }
-        cursor.close();
-
     }
 
     @Override
@@ -99,4 +188,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
