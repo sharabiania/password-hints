@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -8,36 +9,61 @@
         android:fitsSystemWindows="true"
         tools:context="com.alisharabiani.MainActivity">
 
+
     <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_height="wrap_content"
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay"
+            android:layout_height="wrap_content"
             android:focusableInTouchMode="true">
 
-        <EditText
-                android:id="@+id/myFilter"
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/my_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:ems="10"
-                android:hint="Search by service name"
-                android:maxLines="1"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
                 >
-        </EditText>
+
+            <ImageView
+                    android:id="@+id/search_image"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_search"
+            />
+
+            <EditText
+                    android:id="@+id/myFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@+id/search_image"
+                    android:ems="10"
+                    android:hint="Search by service name"
+                    android:maxLines="1"
+                    android:imeOptions="actionSearch"
+            />
+
+        </android.support.v7.widget.Toolbar>
+
+
+
+
 
     </android.support.design.widget.AppBarLayout>
 
 
 
+    <ListView
+            android:id="@+id/listView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/appbar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    />
 
-        <ListView
-                android:id="@+id/listView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/appBarLayout"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+
 
 
 
@@ -52,4 +78,31 @@
             app:backgroundTint="@color/colorPrimary"
     />
 
+
+
+    <LinearLayout
+            android:id="@+id/empty_list_view"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Touch + button to start"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:id="@+id/empty_list_text"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/lightGray"
+        />
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>
+

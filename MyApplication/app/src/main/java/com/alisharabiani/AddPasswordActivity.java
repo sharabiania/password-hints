@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import java.io.File;
@@ -82,6 +83,9 @@ public class AddPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_password);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+//        setSupportActionBar(toolbar);
+//        //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
 }
