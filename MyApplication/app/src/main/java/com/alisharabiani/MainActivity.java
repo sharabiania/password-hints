@@ -5,16 +5,21 @@ import android.content.*;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.*;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     AlertDialog.Builder builder;
 
@@ -69,14 +74,22 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         mDbHelper = new HintEntryDbHelper(getApplicationContext());
         listView = (ListView) findViewById(R.id.listView1);
 
         listView.setAdapter(buildDataAdapter(mDbHelper));
 
 
-        View emptyView = findViewById(R.id.empty_list_text);
+
+        View emptyView = findViewById(R.id.empty_list_view);
+
         listView.setEmptyView(emptyView);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,7 +99,12 @@ public class MainActivity extends Activity {
 
                 // Get the password hint from this row in the database.
                 String hint = cursor.getString(cursor.getColumnIndexOrThrow(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT));
-                Toast.makeText(getApplicationContext(), hint, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), hint, Toast.LENGTH_SHORT).show();
+
+                View view1 = findViewById(R.id.coordinator_layout);
+                Snackbar snackbar = Snackbar.make(view1, hint, Snackbar.LENGTH_LONG);
+                snackbar.show();
+
             }
         });
 
@@ -183,6 +201,8 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
             return true;
         }
 

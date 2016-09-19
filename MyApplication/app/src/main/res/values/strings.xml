@@ -6,4 +6,7 @@
     <string name="hint_label">Password Hint</string>
     <string name="modify">Modify</string>
     <string name="delete">Delete</string>
+
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="close_button">Close</string>
 </resources>
