@@ -49,21 +49,30 @@ public class MainActivity extends AppCompatActivity {
         // The XML defined view which the data will be bound to.
         int[] to = new int[]{
          //       R.id.Id,
-                R.id.account,
-                R.id.username,
+                R.id.service_textview,
+                R.id.account_textview,
          //       R.id.passwordhint,
         };
 
 
         // Create the adapter using the cursor pointing to the desired data
         // as well as the layout information.
-        dataAdapter = new SimpleCursorAdapter(
-                this,
-                R.layout.record_info,
-                cursor,
-                PROJECTION,
-                to,
-                0
+//        dataAdapter = new SimpleCursorAdapter(
+//                this,
+//                R.layout.record_info,
+//                cursor,
+//                PROJECTION,
+//                to,
+//                0
+//        );
+
+        dataAdapter = new ASListViewAdapter(
+               this,
+               R.layout.record_info,
+               cursor,
+               PROJECTION,
+               to,
+               0
         );
 
         return dataAdapter;
@@ -83,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView1);
 
         listView.setAdapter(buildDataAdapter(mDbHelper));
-
 
 
         View emptyView = findViewById(R.id.empty_list_view);
