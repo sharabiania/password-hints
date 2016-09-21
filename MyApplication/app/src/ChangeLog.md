@@ -2,6 +2,7 @@
 ##0.0.2 - ???
 ###Features
 - Added icons for the services.
+- Updated the layout.
 
 ###Fixes
 - Typo in About menu label.
