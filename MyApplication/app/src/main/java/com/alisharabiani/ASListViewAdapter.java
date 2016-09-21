@@ -47,6 +47,10 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
             case "bitbucket":
                 icon.setImageResource(R.drawable.bitbucket);
                 break;
+            case "ea games":
+            case "electronic arts":
+                icon.setImageResource(R.drawable.eagames);
+                break;
             case "ebay":
                 icon.setImageResource(R.drawable.ebay);
                 break;
@@ -65,13 +69,29 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
             case "google":
                 icon.setImageResource(R.drawable.google);
                 break;
+            case "ibm":
+                icon.setImageResource(R.drawable.ibm);
+                break;
             case "instagram":
                 icon.setImageResource(R.drawable.instagram);
+                break;
+            case "microsoft":
+                icon.setImageResource(R.drawable.microsoft);
+                break;
+            case "msdn":
+                icon.setImageResource(R.drawable.msdn);
                 break;
             case "msn":
                 icon.setImageResource(R.drawable.msn);
                 break;
+            case "oracle":
+                icon.setImageResource(R.drawable.oracle);
+                break;
+            case "rbc bank":
+                icon.setImageResource(R.drawable.rbc);
+                break;
             case "scotiabank":
+            case "scotia bank":
                 icon.setImageResource(R.drawable.scotiabank);
                 break;
             case "stackoverflow":
@@ -79,6 +99,12 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
                 break;
             case "td bank":
                 icon.setImageResource(R.drawable.tdbank);
+                break;
+            case "twitter":
+                icon.setImageResource(R.drawable.twitter);
+                break;
+            case "ubisoft":
+                icon.setImageResource(R.drawable.ubisoft);
                 break;
             default:
                 icon.setImageResource(R.drawable.ic_lock_lock_alpha);
