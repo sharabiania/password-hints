@@ -1,10 +1,15 @@
 #Change Log
-##0.0.2
-- 
+##0.0.2 - ???
+###Features
+- Added icons for the services.
+- Updated the layout.
 
-##0.0.1
+###Fixes
+- Typo in About menu label.
+
+##0.0.1 - September 18, 2016
 ###Features
 - Updated app logo.
 - Updated the search bar.
-- Add about screen.
+- Added about screen.
 - Improved UI
