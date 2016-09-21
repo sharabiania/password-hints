@@ -2,12 +2,10 @@ package com.alisharabiani;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import org.w3c.dom.Text;
 
 /**
  * Created by Ali Sharabiani on 2016-09-19.
@@ -24,8 +22,7 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
      * @param flags
      */
     public ASListViewAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
-        super(context, layout, c, from, to, flags);
-    }
+        super(context, layout, c, from, to, flags);}
 
     @Override
     public void bindView(View view, Context context, Cursor cursor){
@@ -43,12 +40,45 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
 
         ImageView icon = (ImageView)view.findViewById(R.id.image_view);
 
-        switch (serviceName){
-            case "Facebook":
-                icon.setImageResource(R.drawable.facebook_50x50);
+        switch (serviceName.toLowerCase()){
+            case "amazon":
+                icon.setImageResource(R.drawable.amazon);
                 break;
-            case "GoDaddy":
-                icon.setImageResource(R.drawable.godaddy_50x50);
+            case "bitbucket":
+                icon.setImageResource(R.drawable.bitbucket);
+                break;
+            case "ebay":
+                icon.setImageResource(R.drawable.ebay);
+                break;
+            case "facebook":
+                icon.setImageResource(R.drawable.facebook);
+                break;
+            case "github":
+                icon.setImageResource(R.drawable.github);
+                break;
+            case "gmail":
+                icon.setImageResource(R.drawable.gmail);
+                break;
+            case "godaddy":
+                icon.setImageResource(R.drawable.godaddy);
+                break;
+            case "google":
+                icon.setImageResource(R.drawable.google);
+                break;
+            case "instagram":
+                icon.setImageResource(R.drawable.instagram);
+                break;
+            case "msn":
+                icon.setImageResource(R.drawable.msn);
+                break;
+            case "scotiabank":
+                icon.setImageResource(R.drawable.scotiabank);
+                break;
+            case "stackoverflow":
+                icon.setImageResource(R.drawable.stackoverflow);
+                break;
+            case "td bank":
+                icon.setImageResource(R.drawable.tdbank);
                 break;
             default:
                 icon.setImageResource(R.drawable.ic_lock_lock_alpha);
