@@ -27,6 +27,8 @@
                 android:label="@string/title_activity_about"
                 android:theme="@style/FullscreenTheme">
         </activity>
+        <activity android:name=".UpdateActivity">
+        </activity>
     </application>
 
 </manifest>

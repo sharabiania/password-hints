@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.alisharabiani.UpdateActivity">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view"
+            android:text="Update your password hint record:\n\n"
+    />
+
+    <EditText
+        android:id="@+id/service_name_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view"
+        android:maxLines="1"
+        android:maxLength="@integer/service_name_max_length"
+        android:hint="@string/service_label"
+    />
+
+    <EditText
+        android:id="@+id/account_name_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/service_name_id"
+        android:maxLines="1"
+        android:maxLength="@integer/account_name_max_length"
+        android:hint="@string/account_label"
+    />
+
+    <EditText
+        android:id="@+id/password_hint_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/account_name_id"
+        android:maxLines="1"
+        android:maxLength="@integer/hint_max_length"
+        android:hint="@string/hint_label"
+    />
+
+    <View
+            android:id="@+id/line_break"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:layout_below="@+id/password_hint_id"
+    />
+
+    <Button
+            android:id="@+id/update_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line_break"
+            android:text="Update"
+            android:onClick="updateOnClick"
+            android:maxLines="1"
+    />
+
+</RelativeLayout>
