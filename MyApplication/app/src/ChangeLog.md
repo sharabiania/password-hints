@@ -1,5 +1,11 @@
 #Change Log
-##1.1.0 - ???
+##1.1.0 - September 22, 2016
+### Feature
+- Added autocomplete for default services.
+- Added the ability to modify password hint records.
+
+### Fixes
+- Fixed the search functionality.
 
 
 ##1.0.0 - September 21, 2016
