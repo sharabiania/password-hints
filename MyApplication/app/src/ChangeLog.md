@@ -1,5 +1,8 @@
 #Change Log
-##1.0.0 - September 20, 2016
+##1.1.0 - ???
+
+
+##1.0.0 - September 21, 2016
 ###Features
 - Added icons for the services.
 - Updated the layout.
