@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 dataAdapter.getFilter().filter(s.toString());
+                listView.setAdapter(dataAdapter);
             }
 
             @Override
@@ -202,14 +203,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == ADD_ROW_REQUEST) {
-            if(resultCode == RESULT_OK)
-            listView.setAdapter(buildDataAdapter(mDbHelper));
-            Toast.makeText(getApplicationContext(), "Record added.", Toast.LENGTH_SHORT).show();
+            if(resultCode == RESULT_OK) {
+                listView.setAdapter(buildDataAdapter(mDbHelper));
+                Toast.makeText(getApplicationContext(), "Record added.", Toast.LENGTH_SHORT).show();
+            }
         }
         else if(requestCode == UPDATE_ROW_REQUEST){
-            if(resultCode == RESULT_OK)
+            if(resultCode == RESULT_OK) {
                 listView.setAdapter(buildDataAdapter(mDbHelper));
-            Toast.makeText(getApplicationContext(), "Record updated.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Record updated.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

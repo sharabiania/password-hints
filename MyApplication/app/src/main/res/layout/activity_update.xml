@@ -17,7 +17,7 @@
             android:text="Update your password hint record:\n\n"
     />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/service_name_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
