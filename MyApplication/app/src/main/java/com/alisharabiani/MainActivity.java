@@ -21,12 +21,15 @@ import android.widget.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    AlertDialog.Builder builder;
+    AlertDialog.Builder alertDialogBuilder;
 
     SimpleCursorAdapter dataAdapter;
 
     // The request code to start add a new row activity.
     static final int ADD_ROW_REQUEST = 1;
+
+    // The request code to start an update record activity.
+    static final int UPDATE_ROW_REQUEST = 2;
 
     Cursor cursor;
 
@@ -121,20 +124,31 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
-                builder.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setPositiveButton("Edit", new DialogInterface.OnClickListener(){
+                   public void onClick(DialogInterface dialogInterface, int which){
+                       Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
+                       RecordModel recordModel = mDbHelper.findById((int) id);
+                       intent.putExtra(Globals.RECORD_ID_INTENT_EXTRA, recordModel.getId());
+                       intent.putExtra(Globals.SERVICE_NAME_INTENT_EXTRA, recordModel.getServiceName());
+                       intent.putExtra(Globals.ACCOUNT_NAME_INTENT_EXTRA, recordModel.getAccountName());
+                       intent.putExtra(Globals.PASSWORD_HINT_INTENT_EXTRA, recordModel.getPasswordHint());
+                       startActivityForResult(intent, UPDATE_ROW_REQUEST);
+                   }
+                });
+                alertDialogBuilder.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing
                         mDbHelper.deleteById(String.valueOf(id));
                         listView.setAdapter(buildDataAdapter(mDbHelper));
-                        Toast.makeText(getApplicationContext(), "Record has been deleted.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Record deleted.", Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setIcon(android.R.drawable.ic_delete);
-                builder.setCancelable(true);
-                builder.setTitle("Delete?");
-                RecordModel model = mDbHelper.findById(String.valueOf(id));
-                builder.setMessage(model.getAccountName() + "\n" + model.getUsername());
-                builder.create().show();
+                alertDialogBuilder.setCancelable(true);
+                RecordModel model = mDbHelper.findById((int) id);
+                alertDialogBuilder.setIcon(model.getIcon());
+                alertDialogBuilder.setTitle(model.getServiceName());
+                alertDialogBuilder.setMessage(model.getAccountName());
+                alertDialogBuilder.create().show();
 
 
                 return true;
@@ -151,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 dataAdapter.getFilter().filter(s.toString());
+                listView.setAdapter(dataAdapter);
             }
 
             @Override
@@ -181,15 +196,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Initialize the dialog builder.
-        builder = new AlertDialog.Builder(this);
+        alertDialogBuilder = new AlertDialog.Builder(this);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == ADD_ROW_REQUEST) {
-            if(resultCode == RESULT_OK)
-            listView.setAdapter(buildDataAdapter(mDbHelper));
+            if(resultCode == RESULT_OK) {
+                listView.setAdapter(buildDataAdapter(mDbHelper));
+                Toast.makeText(getApplicationContext(), "Record added.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(requestCode == UPDATE_ROW_REQUEST){
+            if(resultCode == RESULT_OK) {
+                listView.setAdapter(buildDataAdapter(mDbHelper));
+                Toast.makeText(getApplicationContext(), "Record updated.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

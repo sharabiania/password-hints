@@ -1,5 +1,6 @@
 package com.alisharabiani;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -137,25 +138,55 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
      * Finds a record based by id.
      * @param id id of the row to be returned.
      */
-    public RecordModel findById(String id){
+    public RecordModel findById(int id){
+        String stringId = String.valueOf(id);
         SQLiteDatabase db = getReadableDatabase();
         String where = PasswordHintContract.HintEntry._ID + " = ?";
-        String[] whereArgs = { id };
+        String[] whereArgs = { stringId };
         Cursor cursor = db.query(PasswordHintContract.HintEntry.TABLE_NAME, null, where, whereArgs, null, null, null);
         if(cursor != null){
 
             cursor.moveToFirst();
             String serviceName = cursor.getString(cursor.getColumnIndex(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT));
-            String username = cursor.getString(cursor.getColumnIndex(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME));
+            String accountName = cursor.getString(cursor.getColumnIndex(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME));
+            String passwordHint = cursor.getString(cursor.getColumnIndex(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT));
 
             RecordModel model = new RecordModel();
-            model.setUsername(username);
-            model.setAccountName(serviceName);
+            model.setId(id);
+            model.setServiceName(serviceName);
+            model.setAccountName(accountName);
+            model.setPasswordHint(passwordHint);
 
             return model;
         }
         else
             return null;
+    }
+
+    /**
+     * Updates a record in the database.
+     * @param id id of the record to be updated.
+     * @param model the new values for the record.
+     * @return true if one row has been affected.
+     */
+    public boolean update(int id, RecordModel model){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues newValues = new ContentValues();
+        newValues.put(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT, model.getServiceName());
+        newValues.put(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME, model.getAccountName());
+        newValues.put(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT, model.getPasswordHint());
+        String[] args = new String []{ String.valueOf(id)};
+        int numberOfRowsAffected = db.update(
+                PasswordHintContract.HintEntry.TABLE_NAME,
+                newValues,
+                PasswordHintContract.HintEntry._ID + "=?",
+                args
+                );
+
+        if(numberOfRowsAffected == 1) {
+            return true;
+        }
+        else return false;
     }
 }
 

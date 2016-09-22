@@ -1,24 +1,18 @@
 package com.alisharabiani;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import java.io.File;
-import java.io.FileOutputStream;
-
-import static android.R.attr.id;
-import static java.security.AccessController.getContext;
 
 public class AddPasswordActivity extends AppCompatActivity {
 
     public void addOnClick(View view){
-        // TODO: do something.
         EditText accountEditText = (EditText)findViewById(R.id.accountEditText);
         EditText usernameEditText = (EditText)findViewById(R.id.usernameEditText);
         EditText passwordHintEditText = (EditText)findViewById(R.id.passwordHintEditText);
@@ -65,14 +59,16 @@ public class AddPasswordActivity extends AppCompatActivity {
                     null,
                     values);
 
-            Intent data = new Intent();
+            //Intent data = new Intent();
 
             if (newRowId != -1) {
-                data.putExtra("isSuccessful", true);
-                setResult(RESULT_OK, data);
+                //data.putExtra(Globals.IS_SUCCESSFUL_INTENT_EXTRA, true);
+                //setResult(RESULT_OK, data);
+                setResult(RESULT_OK);
             } else {
-                data.putExtra("isSuccessful", false);
-                setResult(RESULT_CANCELED, data);
+                //data.putExtra(Globals.IS_SUCCESSFUL_INTENT_EXTRA, false);
+                //setResult(RESULT_CANCELED, data);
+                setResult(RESULT_CANCELED);
             }
 
             finish();
@@ -83,9 +79,14 @@ public class AddPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_password);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(toolbar);
-//        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
+
+        AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.accountEditText);
+
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.setAdapter(adapter);
+
 
     }
 }
