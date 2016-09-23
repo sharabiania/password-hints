@@ -1,4 +1,6 @@
 #Change Log
+##1.2.0 - ???
+
 ##1.1.1 - September 22, 2016
 ### Fixes
 - Fixed the issue where adding/updating hint records would break the
