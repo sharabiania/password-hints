@@ -47,35 +47,13 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    /**
+     * Get all rows in the database ordered by service name.
+     * @return cursor object containing sorted table.
+     */
     public Cursor getAllRows() {
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                PasswordHintContract.HintEntry._ID,
-                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
-                PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
-                PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT
-
-        };
-
-        // How you want the results sorted in the resulting Cursor
-//        String sortOrder =
-//                PasswordHintContract.HintEntry.COLUMN_NAME_UPDATED + " DESC";
-
-        SQLiteDatabase db = getReadableDatabase();
-
-        Cursor cursor = db.query(
-                PasswordHintContract.HintEntry.TABLE_NAME,  // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT  // The sort order
-        );
-
-        return cursor;
+        return getAllRows(null);
     }
 
     /**
@@ -84,9 +62,9 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
      * @return if search string is null, returns all rows; otherwise, the found records.
      * @throws SQLException
      */
-    public Cursor getAllRows(String inputText) throws SQLException{
+    public Cursor getAllRows(String inputText ) throws SQLException{
         SQLiteDatabase mDb = getReadableDatabase();
-        Cursor mCursor = null;
+        Cursor mCursor;
         if (inputText == null  ||  inputText.length () == 0)  {
             mCursor = mDb.query(
                     PasswordHintContract.HintEntry.TABLE_NAME
@@ -96,19 +74,28 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
                             PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
                             PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
                         },
-                    null, null, null, null, null);
+                    null,
+                    null,
+                    null,
+                    null,
+                    PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT // Sort order.
+            );
 
         }
         else {
-            mCursor = mDb.query(true, PasswordHintContract.HintEntry.TABLE_NAME,
+            mCursor = mDb.query(PasswordHintContract.HintEntry.TABLE_NAME,
                     new String[] {
                             PasswordHintContract.HintEntry._ID,
                             PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
                             PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
                             PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
                     },
-                    PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT + " like '%" + inputText + "%'", null,
-                    null, null, null, null);
+                    PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT + " like '%" + inputText + "%'",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
         }
         if (mCursor != null) {
             mCursor.moveToFirst();
