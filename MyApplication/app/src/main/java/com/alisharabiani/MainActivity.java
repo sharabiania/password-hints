@@ -1,6 +1,5 @@
 package com.alisharabiani;
 
-import android.app.Activity;
 import android.content.*;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,11 +7,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,49 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     HintEntryDbHelper mDbHelper;
 
-    private SimpleCursorAdapter buildDataAdapter(HintEntryDbHelper dbHelper) {
-        HintEntryDbHelper mDbHelper = dbHelper;
-        cursor = mDbHelper.getAllRows();
-
-        // Desired columns to be bound.
-        String[] PROJECTION = new String[] {
-              //  PasswordHintContract.HintEntry._ID,
-                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
-                PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
-                PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
-        };
-
-        // The XML defined view which the data will be bound to.
-        int[] to = new int[]{
-         //       R.id.Id,
-                R.id.service_textview,
-                R.id.account_textview,
-         //       R.id.passwordhint,
-        };
-
-
-        // Create the adapter using the cursor pointing to the desired data
-        // as well as the layout information.
-//        dataAdapter = new SimpleCursorAdapter(
-//                this,
-//                R.layout.record_info,
-//                cursor,
-//                PROJECTION,
-//                to,
-//                0
-//        );
-
-        dataAdapter = new ASListViewAdapter(
-               this,
-               R.layout.record_info,
-               cursor,
-               PROJECTION,
-               to,
-               0
-        );
-
-        return dataAdapter;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +48,36 @@ public class MainActivity extends AppCompatActivity {
         mDbHelper = new HintEntryDbHelper(getApplicationContext());
         listView = (ListView) findViewById(R.id.listView1);
 
-        listView.setAdapter(buildDataAdapter(mDbHelper));
+        cursor = mDbHelper.getAllRows();
+
+        // Desired columns to be bound.
+        String[] PROJECTION = new String[] {
+                //  PasswordHintContract.HintEntry._ID,
+                PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT,
+                PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME,
+                PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT,
+        };
+
+        // The XML defined view which the data will be bound to.
+        int[] to = new int[]{
+                //       R.id.Id,
+                R.id.service_textview,
+                R.id.account_textview,
+                //       R.id.passwordhint,
+        };
+
+
+        dataAdapter = new ASListViewAdapter(
+                this,
+                R.layout.record_info,
+                cursor,
+                PROJECTION,
+                to,
+                0
+        );
+
+
+        listView.setAdapter(dataAdapter);
 
 
         View emptyView = findViewById(R.id.empty_list_view);
@@ -139,7 +122,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing
                         mDbHelper.deleteById(String.valueOf(id));
-                        listView.setAdapter(buildDataAdapter(mDbHelper));
+                        cursor = mDbHelper.getAllRows();
+                        dataAdapter.swapCursor(cursor);
+                        dataAdapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(), "Record deleted.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -165,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 dataAdapter.getFilter().filter(s.toString());
-                listView.setAdapter(dataAdapter);
+               // listView.setAdapter(dataAdapter);
             }
 
             @Override
@@ -204,13 +189,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == ADD_ROW_REQUEST) {
             if(resultCode == RESULT_OK) {
-                listView.setAdapter(buildDataAdapter(mDbHelper));
+                //listView.setAdapter(buildDataAdapter(mDbHelper));
+                cursor = mDbHelper.getAllRows();
+                dataAdapter.swapCursor(cursor);
+                dataAdapter.notifyDataSetChanged();
+
+             //   listView.setAdapter(dataAdapter);
                 Toast.makeText(getApplicationContext(), "Record added.", Toast.LENGTH_SHORT).show();
             }
         }
         else if(requestCode == UPDATE_ROW_REQUEST){
             if(resultCode == RESULT_OK) {
-                listView.setAdapter(buildDataAdapter(mDbHelper));
+                cursor = mDbHelper.getAllRows();
+                dataAdapter.swapCursor(cursor);
+                dataAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(), "Record updated.", Toast.LENGTH_SHORT).show();
             }
         }
