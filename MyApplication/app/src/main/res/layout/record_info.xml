@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10px">
+                android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="10px"
+                android:descendantFocusability="blocksDescendants">
 
 
     <ImageView
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/image_view"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="20sp"
     />
 
@@ -27,11 +28,19 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/service_textview"
             android:layout_toRightOf="@+id/image_view"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textStyle="bold"
             android:textSize="15sp"
     />
 
-
+    <ImageButton
+            android:id="@+id/listPlayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            android:focusable="false"
+            android:src="@android:drawable/ic_media_play"
+    />
 
 </RelativeLayout>

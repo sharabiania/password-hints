@@ -18,10 +18,6 @@ public final class PasswordHintContract {
         public static final String COLUMN_NAME_USERNAME = "username";
         public static final String COLUMN_NAME_PASSWORDHINT = "passwordhint";
 
-
-
-
-
     }
 
 

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import services.AudioService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     // The request code to start an update record activity.
     static final int UPDATE_ROW_REQUEST = 2;
 
+    private AudioService audioService;
+
     Cursor cursor;
 
     ListView listView;
@@ -40,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        audioService = new AudioService(getApplicationContext());
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -73,12 +79,12 @@ public class MainActivity extends AppCompatActivity {
                 cursor,
                 PROJECTION,
                 to,
-                0
+                0,
+                audioService
         );
 
 
         listView.setAdapter(dataAdapter);
-
 
         View emptyView = findViewById(R.id.empty_list_view);
 

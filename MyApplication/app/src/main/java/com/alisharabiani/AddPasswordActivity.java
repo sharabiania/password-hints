@@ -1,16 +1,50 @@
 package com.alisharabiani;
 
+import android.Manifest;
 import android.content.ContentValues;
-import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
+import services.AudioService;
+
+import java.io.File;
 
 public class AddPasswordActivity extends AppCompatActivity {
+
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private boolean permissionToRecordAccepted = false;
+    private boolean mStartRecording = false;
+    private AudioService audioService;
+
+
+    public void recordOnClick(View view){
+        // TODO check for permissions.
+        Button btn = (Button)view;
+        Button playBtn = (Button)this.findViewById(R.id.playButton);
+        mStartRecording = !mStartRecording;
+        if(mStartRecording) {
+            btn.setText("Stop Recording");
+            playBtn.setVisibility(View.INVISIBLE);
+            audioService.startRecording();
+        }
+        else{
+            btn.setText("Record");
+            audioService.stopRecording();
+            playBtn.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void playOnClick(View v){
+        audioService.startPlaying();
+    }
 
     public void addOnClick(View view){
         EditText accountEditText = (EditText)findViewById(R.id.accountEditText);
@@ -71,8 +105,23 @@ public class AddPasswordActivity extends AppCompatActivity {
                 setResult(RESULT_CANCELED);
             }
 
+            audioService.saveAs(Long.toString(newRowId));
+
+
+
             finish();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch(requestCode){
+            case REQUEST_RECORD_AUDIO_PERMISSION:
+                permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                break;
+        }
+        if(!permissionToRecordAccepted) finish();
     }
 
     @Override
@@ -87,6 +136,7 @@ public class AddPasswordActivity extends AppCompatActivity {
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(adapter);
 
+       audioService = new AudioService(getApplicationContext());
 
     }
 }

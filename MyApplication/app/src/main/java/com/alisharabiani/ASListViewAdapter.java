@@ -3,14 +3,18 @@ package com.alisharabiani;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
+import android.widget.*;
+import services.AudioService;
+import services.Callback;
+
+import java.io.File;
 
 /**
  * Created by Ali Sharabiani on 2016-09-19.
  */
 public class ASListViewAdapter extends SimpleCursorAdapter {
+
+    private AudioService audioService;
 
     /**
      * Default constructor.
@@ -21,11 +25,14 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
      * @param to
      * @param flags
      */
-    public ASListViewAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
-        super(context, layout, c, from, to, flags);}
+    public ASListViewAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags, AudioService audioService) {
+        super(context, layout, c, from, to, flags);
+        this.audioService = audioService;
+    }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor){
+        long id = cursor.getLong(cursor.getColumnIndex(PasswordHintContract.HintEntry._ID));
         int serviceNameIndex = cursor.getColumnIndex(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT);
         int accountNameIndex = cursor.getColumnIndex(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME);
         String serviceName = cursor.getString(serviceNameIndex);
@@ -36,6 +43,20 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
 
         serviceNameTextView.setText(serviceName);
         accountTextView.setText(accountName);
+
+        ImageButton btn = (ImageButton)view.findViewById(R.id.listPlayButton);
+        final String stringID = Long.toString(id);
+        if(audioService.hasAudio(stringID)) {
+            btn.setVisibility(View.VISIBLE);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    audioService.stopPlaying();
+                    audioService.startPlaying(stringID);
+
+                }
+            });
+        }
 
 
         ImageView icon = (ImageView)view.findViewById(R.id.image_view);
