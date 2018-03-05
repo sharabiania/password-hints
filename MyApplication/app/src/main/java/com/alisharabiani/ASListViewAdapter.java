@@ -4,17 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.*;
-import services.AudioService;
-import services.Callback;
-
-import java.io.File;
+import services.ASAudioService;
 
 /**
  * Created by Ali Sharabiani on 2016-09-19.
  */
 public class ASListViewAdapter extends SimpleCursorAdapter {
 
-    private AudioService audioService;
+    private ASAudioService audioService;
 
     /**
      * Default constructor.
@@ -25,7 +22,7 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
      * @param to
      * @param flags
      */
-    public ASListViewAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags, AudioService audioService) {
+    public ASListViewAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags, ASAudioService audioService) {
         super(context, layout, c, from, to, flags);
         this.audioService = audioService;
     }

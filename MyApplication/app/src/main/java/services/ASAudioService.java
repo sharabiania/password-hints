@@ -3,33 +3,46 @@ package services;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.Message;
-import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
+import interfaces.IASEventListener;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Handler;
 
 /**
  * Created by Ali Sharabiani on 2018-03-03.
  */
-public class AudioService {
+public class ASAudioService {
 
     private static final String FileExtension = ".3gp";
     private static final String TempFileName = "tempfile";
     private static final String TempFile = TempFileName + FileExtension;
-    private static final String LOG_TAG = "AudioRecord";
+    private static final String LOG_TAG = "AS_AudioRecord";
+
 
     private Context c;
-    private MediaPlayer mPlayer = null;
-    private MediaRecorder mRecorder = null;
+    private MediaPlayer mPlayer;
+    private MediaRecorder mRecorder;
+    private ASLogService log;
 
-    public AudioService(Context context) {
+    public static final int MaxDuration = 3000;
+
+    public ASAudioService(Context context) {
         c=context;
+        log = new ASLogService(LOG_TAG);
         mRecorder = new MediaRecorder();
+        mRecorder.setMaxDuration(MaxDuration);
 
+        mPlayer = new MediaPlayer();
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.release();
+                mPlayer.stop();
+                mPlayer.release();
+                mPlayer.reset();
+            }
+        });
         //  delete the temp audio file if exists
         File f = new File(c.getCacheDir(), TempFile);
         if(f.exists()) f.delete();
@@ -40,6 +53,12 @@ public class AudioService {
         return f.exists();
     }
 
+    public boolean deleteIfExists(String filename){
+        File f = new File(c.getFilesDir(), filename + FileExtension);
+        if(f.exists())
+            return f.delete();
+        return true;
+    }
 
     public void startPlaying(){
         startPlaying(null);
@@ -56,13 +75,17 @@ public class AudioService {
             mFile = new File(c.getFilesDir(), filename + FileExtension);
         }
 
+        if(!mFile.exists())
+            log.e("File doesn't exists: " + mFile.getName());
+
         try{
+
             mPlayer.setDataSource(mFile.getAbsolutePath());
             mPlayer.prepare();
             mPlayer.start();
         }
-        catch(IOException ex){
-             Log.e(LOG_TAG, "prepare() failed");
+        catch(Exception ex){
+             log.e("Cannot play audio file", ex);
         }
     }
 
@@ -76,6 +99,8 @@ public class AudioService {
     public void startRecording(){
 
         File mFile = new File(c.getCacheDir(), TempFile);
+        mPlayer.release();
+        if(mFile.exists()) mFile.delete();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setOutputFile(mFile.getAbsolutePath());
@@ -85,7 +110,7 @@ public class AudioService {
             mRecorder.prepare();
         }
         catch(IOException ex){
-            Log.e(LOG_TAG, "prepare failed");
+            log.e("prepare failed", ex);
         }
 
         mRecorder.start();
@@ -98,18 +123,17 @@ public class AudioService {
         mRecorder = null;
     }
 
-
-
-    public void setOnCompletion(){
-        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+    public void setOnMaxRecordDurationReached(final IASEventListener e){
+        mRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
             @Override
-            public void onCompletion(MediaPlayer mp) {
-
+            public void onInfo(MediaRecorder mr, int what, int extra) {
+                if(what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED){
+                    mRecorder.stop();
+                    e.Invoke();
+                }
             }
         });
     }
-
-
 
     public void saveAs(String filename){
         // TODO Rename the audio file if exists
@@ -117,7 +141,7 @@ public class AudioService {
         if(from.exists()){
             File to = new File(c.getFilesDir(), filename + FileExtension);
             if(!from.renameTo(to)){
-                Log.e(LOG_TAG, "Failed to move the file to the Files DIR");
+                log.e("Failed to move the file to the Files DIR");
             }
         }
     }

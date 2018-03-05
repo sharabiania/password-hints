@@ -10,12 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import services.AudioService;
-
+import services.ASAudioService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     // The request code to start an update record activity.
     static final int UPDATE_ROW_REQUEST = 2;
 
-    private AudioService audioService;
+    private ASAudioService audioService;
 
     Cursor cursor;
 
@@ -37,15 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
     HintEntryDbHelper mDbHelper;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        audioService = new AudioService(getApplicationContext());
-
+        audioService = new ASAudioService(getApplicationContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -128,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing
                         mDbHelper.deleteById(String.valueOf(id));
+                        if(!audioService.deleteIfExists(String.valueOf(id))){
+                            Log.e("Audio Service","Unable to delete audio hint " + id);
+                        }
                         cursor = mDbHelper.getAllRows();
                         dataAdapter.swapCursor(cursor);
                         dataAdapter.notifyDataSetChanged();
