@@ -1,7 +1,7 @@
-package classes;
+package com.alisharabiani.classes;
 
 import android.os.CountDownTimer;
-import interfaces.IASEventListener;
+import com.alisharabiani.interfaces.IASEventListener;
 
 /**
  * Created by Ali Sharabiani on 2018-03-04.

@@ -1,9 +1,9 @@
-package services;
+package com.alisharabiani.services;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import interfaces.IASEventListener;
+import com.alisharabiani.interfaces.IASEventListener;
 
 import java.io.File;
 import java.io.IOException;
