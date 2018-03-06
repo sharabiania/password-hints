@@ -49,9 +49,7 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     audioService.startPlaying(stringID);
-
                 }
             });
         }

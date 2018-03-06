@@ -20,27 +20,28 @@ import com.alisharabiani.R;
 import com.alisharabiani.interfaces.IASEventListener;
 import com.alisharabiani.services.ASAudioService;
 
-public class AddPasswordActivity extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity {
 
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private boolean permissionToRecordAccepted = false;
     private boolean mStartRecording = false;
     private ASAudioService audioService;
 
-
     private Button recBtn;
     private Button playBtn;
+    private Button addBtn;
     private ASCountDownTimer timer;
+    private int defaultColor;
 
-    public void recordOnClick(View view){
+
+    public void recordOnClick(View view) {
         // TODO check for permissions.
-        // btn = (Button)view;
-        
+
         mStartRecording = !mStartRecording;
 
-        if(mStartRecording) {
+        if (mStartRecording) {
 
-            timer = new ASCountDownTimer((long)audioService.MaxDuration);
+            timer = new ASCountDownTimer((long) audioService.MaxDuration);
             timer.setOnTickCallBack(new IASEventListener() {
                 @Override
                 public void Invoke() {
@@ -51,24 +52,29 @@ public class AddPasswordActivity extends AppCompatActivity {
             recBtn.setText("Stop");
             recBtn.setTextColor(Color.RED);
             playBtn.setVisibility(View.INVISIBLE);
+            addBtn.setEnabled(false);
             audioService.startRecording();
-        }
-        else{
+        } else {
             recBtn.setText("Record");
-            recBtn.setTextColor(Color.BLACK);
+            recBtn.setTextColor(defaultColor);
             audioService.stopRecording();
+            timer.cancel();
             playBtn.setVisibility(View.VISIBLE);
+            addBtn.setEnabled(true);
         }
     }
 
-    public void playOnClick(View v){
+    public void playOnClick(View v) {
+        playBtn.setEnabled(false);
+        recBtn.setEnabled(false);
+        recBtn.setAlpha(0.5f);
         audioService.startPlaying();
     }
 
-    public void addOnClick(View view){
-        EditText accountEditText = (EditText)findViewById(R.id.accountEditText);
-        EditText usernameEditText = (EditText)findViewById(R.id.usernameEditText);
-        EditText passwordHintEditText = (EditText)findViewById(R.id.passwordHintEditText);
+    public void addOnClick(View view) {
+        EditText accountEditText = (EditText) findViewById(R.id.accountEditText);
+        EditText usernameEditText = (EditText) findViewById(R.id.usernameEditText);
+        EditText passwordHintEditText = (EditText) findViewById(R.id.passwordHintEditText);
 
         String account = accountEditText.getText().toString().trim();
         String username = usernameEditText.getText().toString().trim();
@@ -77,19 +83,19 @@ public class AddPasswordActivity extends AppCompatActivity {
         // Validate input data.
         boolean isValid = true;
 
-        if(account == null || account.isEmpty()) {
+        if (account == null || account.isEmpty()) {
             accountEditText.setError("Cannot be empty.");
             isValid = false;
         }
-        if(username == null || username.isEmpty()) {
+        if (username == null || username.isEmpty()) {
             usernameEditText.setError("Cannot be empty.");
             isValid = false;
         }
-        if(passwordHint == null || passwordHint.isEmpty()) {
+        if (passwordHint == null || passwordHint.isEmpty()) {
             passwordHintEditText.setError("Cannot be empty.");
             isValid = false;
         }
-        if(isValid == true) {
+        if (isValid == true) {
 
             // Save to database.
             HintEntryDbHelper mDbHelper = new HintEntryDbHelper(getApplicationContext());
@@ -127,20 +133,19 @@ public class AddPasswordActivity extends AppCompatActivity {
             audioService.saveAs(Long.toString(newRowId));
 
 
-
             finish();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch(requestCode){
+        switch (requestCode) {
             case REQUEST_RECORD_AUDIO_PERMISSION:
                 permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 break;
         }
-        if(!permissionToRecordAccepted) finish();
+        if (!permissionToRecordAccepted) finish();
     }
 
     @Override
@@ -148,31 +153,43 @@ public class AddPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_password);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
 
         AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.accountEditText);
 
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(adapter);
 
-
         recBtn = (Button) this.findViewById(R.id.recordButton);
-        playBtn = (Button)this.findViewById(R.id.playButton);
+        playBtn = (Button) this.findViewById(R.id.playButton);
+        addBtn = (Button) this.findViewById(R.id.addButton);
 
-       audioService = new ASAudioService(getApplicationContext());
-       audioService.setOnMaxRecordDurationReached(new IASEventListener() {
-           @Override
-           public void Invoke() {
-               recBtn.setText("Record");
-               mStartRecording = false;
-               playBtn.setVisibility(View.VISIBLE);
-           }
-       });
+        defaultColor = recBtn.getTextColors().getDefaultColor();
+
+        audioService = new ASAudioService(getApplicationContext());
+        audioService.setOnMaxRecordDurationReached(new IASEventListener() {
+            @Override
+            public void Invoke() {
+                recBtn.setTextColor(Color.BLACK);
+                recBtn.setText("Record");
+                mStartRecording = false;
+                playBtn.setVisibility(View.VISIBLE);
+                addBtn.setEnabled(true);
+            }
+        });
+        audioService.setOnPlayCompletion(new IASEventListener() {
+            @Override
+            public void Invoke() {
+                recBtn.setEnabled(true);
+                recBtn.setAlpha(1);
+                playBtn.setEnabled(true);
+            }
+        });
 
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         audioService.destroy();
         super.onDestroy();
     }

@@ -24,27 +24,19 @@ public class ASAudioService {
     private MediaPlayer mPlayer;
     private ASLogService log;
 
-    public static final int MaxDuration = 3000;
+    public static final int MaxDuration = 4000;
 
     public ASAudioService(Context context) {
         c=context;
         log = new ASLogService(LOG_TAG);
         mRecorder = new MediaRecorder();
         mRecorder.setMaxDuration(MaxDuration);
-
+        mPlayer = new MediaPlayer();
 
         //  delete the temp audio file if exists
         File f = new File(c.getCacheDir(), TempFile);
         if(f.exists()) f.delete();
 
-        mPlayer = new MediaPlayer();
-        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.stop();
-                mp.reset();
-            }
-        });
     }
 
     public boolean hasAudio(String id){
@@ -121,8 +113,21 @@ public class ASAudioService {
             public void onInfo(MediaRecorder mr, int what, int extra) {
                 if(what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED){
                     mRecorder.stop();
-                    e.Invoke();
+                    if(e != null)
+                        e.Invoke();
                 }
+            }
+        });
+    }
+
+    public void setOnPlayCompletion(final IASEventListener e){
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.reset();
+                if(e != null)
+                    e.Invoke();
             }
         });
     }
@@ -147,7 +152,5 @@ public class ASAudioService {
         mRecorder.release();
         mRecorder = null;
     }
-
-
 
 }

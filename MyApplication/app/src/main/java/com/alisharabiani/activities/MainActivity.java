@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         audioService = new ASAudioService(getApplicationContext());
+        audioService.setOnPlayCompletion(null);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this, AddPasswordActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddActivity.class);
 
                 startActivityForResult(intent, ADD_ROW_REQUEST);
             }
