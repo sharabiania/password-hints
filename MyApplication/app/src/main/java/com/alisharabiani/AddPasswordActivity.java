@@ -171,4 +171,10 @@ public class AddPasswordActivity extends AppCompatActivity {
        });
 
     }
+
+    @Override
+    protected void onDestroy(){
+        audioService.destroy();
+        super.onDestroy();
+    }
 }

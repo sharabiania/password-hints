@@ -13,6 +13,14 @@ public class ASLogService {
         this.tag = tag;
     }
 
+    public int i(String message) {
+        return Log.i(tag, message);
+    }
+
+    public int d(String message){
+        return Log.d(tag, message);
+    }
+
     public int e(String message) {
         return Log.e(tag, message);
     }

@@ -193,6 +193,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy(){
+        audioService.destroy();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == ADD_ROW_REQUEST) {
             if(resultCode == RESULT_OK) {

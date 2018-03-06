@@ -20,8 +20,8 @@ public class ASAudioService {
 
 
     private Context c;
-    private MediaPlayer mPlayer;
     private MediaRecorder mRecorder;
+    private MediaPlayer mPlayer;
     private ASLogService log;
 
     public static final int MaxDuration = 3000;
@@ -32,20 +32,19 @@ public class ASAudioService {
         mRecorder = new MediaRecorder();
         mRecorder.setMaxDuration(MaxDuration);
 
+
+        //  delete the temp audio file if exists
+        File f = new File(c.getCacheDir(), TempFile);
+        if(f.exists()) f.delete();
+
         mPlayer = new MediaPlayer();
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.stop();
-                mp.release();
-                mPlayer.stop();
-                mPlayer.release();
-                mPlayer.reset();
+                mp.reset();
             }
         });
-        //  delete the temp audio file if exists
-        File f = new File(c.getCacheDir(), TempFile);
-        if(f.exists()) f.delete();
     }
 
     public boolean hasAudio(String id){
@@ -65,8 +64,11 @@ public class ASAudioService {
     }
 
     public void startPlaying(String filename)  {
-        if(mPlayer == null)
-            mPlayer = new MediaPlayer();
+
+        if(mPlayer.isPlaying()) {
+            mPlayer.stop();
+            mPlayer.reset();
+        }
         File mFile = null;
         if(filename==null) {
             mFile = new File(c.getCacheDir(), TempFile);
@@ -79,7 +81,6 @@ public class ASAudioService {
             log.e("File doesn't exists: " + mFile.getName());
 
         try{
-
             mPlayer.setDataSource(mFile.getAbsolutePath());
             mPlayer.prepare();
             mPlayer.start();
@@ -89,17 +90,9 @@ public class ASAudioService {
         }
     }
 
-    public void stopPlaying(){
-        if(mPlayer == null) return;
-        mPlayer.stop();
-        mPlayer.release();
-        mPlayer = null;
-    }
-
     public void startRecording(){
 
         File mFile = new File(c.getCacheDir(), TempFile);
-        mPlayer.release();
         if(mFile.exists()) mFile.delete();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -119,8 +112,7 @@ public class ASAudioService {
     public void stopRecording(){
         if(mRecorder == null) return;
         mRecorder.stop();
-        mRecorder.release();
-        mRecorder = null;
+        mRecorder.reset();
     }
 
     public void setOnMaxRecordDurationReached(final IASEventListener e){
@@ -145,6 +137,17 @@ public class ASAudioService {
             }
         }
     }
+
+    public void destroy(){
+        log.i("Releasing resources");
+        log.d("Release player");
+        mPlayer.release();
+        mPlayer = null;
+        log.d("Release recorder");
+        mRecorder.release();
+        mRecorder = null;
+    }
+
 
 
 }
