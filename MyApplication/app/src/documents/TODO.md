@@ -1,10 +1,17 @@
 #TODO
 - Remove audio from the Hint
-- Update the recorded audio
 - Backup data on google drive
+- Update account logos quality
+- Add more account types
+- Admob
+- Improve UI
 
 #In progress
-- Timer for record
+- Update the recorded audio
 
 
 #Done
+- Timer for record
+
+
+#Archive
