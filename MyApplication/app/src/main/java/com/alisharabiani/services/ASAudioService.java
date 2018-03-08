@@ -3,6 +3,7 @@ package com.alisharabiani.services;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import com.alisharabiani.classes.ASCountDownTimer;
 import com.alisharabiani.interfaces.IASEventListener;
 
 import java.io.File;
@@ -13,19 +14,23 @@ import java.io.IOException;
  */
 public class ASAudioService {
 
+    //region Constants
+    private static final int MaxDuration = 4000;
     private static final String FileExtension = ".3gp";
     private static final String TempFileName = "tempfile";
     private static final String TempFile = TempFileName + FileExtension;
     private static final String LOG_TAG = "AS_AudioRecord";
+    //endregion
 
-
+    //region Fields
     private Context c;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
     private ASLogService log;
+    private ASCountDownTimer timer;
+    //endregion
 
-    public static final int MaxDuration = 4000;
-
+    //region Constructors
     public ASAudioService(Context context) {
         c=context;
         log = new ASLogService(LOG_TAG);
@@ -33,12 +38,58 @@ public class ASAudioService {
         mRecorder.setMaxDuration(MaxDuration);
         mPlayer = new MediaPlayer();
 
+        timer = new ASCountDownTimer((long) MaxDuration);
+
+        timer.setOnFinishCallBack(new IASEventListener() {
+            @Override
+            public void Invoke() {
+                // Stop the recording?
+            }
+        });
+
         //  delete the temp audio file if exists
         File f = new File(c.getCacheDir(), TempFile);
         if(f.exists()) f.delete();
 
     }
+    //endregion
 
+    //region Getter, Setter
+    public void setOnMaxRecordDurationReached(final IASEventListener e){
+        mRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
+            @Override
+            public void onInfo(MediaRecorder mr, int what, int extra) {
+                if(what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED){
+                    mRecorder.stop();
+                    if(e != null)
+                        e.Invoke();
+                }
+            }
+        });
+        timer.cancel();
+    }
+
+    public void setOnPlayCompletion(final IASEventListener e){
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.reset();
+                if(e != null)
+                    e.Invoke();
+            }
+        });
+    }
+
+    public void setOnRecordTickCallback(IASEventListener e){
+        timer.setOnTickCallBack(e);
+    }
+    public int getCurrentRecordTime(){
+        return timer.getCurrSecond();
+    }
+    //endregion
+
+    //region Methods
     public boolean hasAudio(String id){
         File f = new File(c.getFilesDir(), id + FileExtension);
         return f.exists();
@@ -78,19 +129,18 @@ public class ASAudioService {
             mPlayer.start();
         }
         catch(Exception ex){
-             log.e("Cannot play audio file", ex);
+            log.e("Cannot play audio file", ex);
         }
     }
 
     public void startRecording(){
-
+        timer.reset();
         File mFile = new File(c.getCacheDir(), TempFile);
         if(mFile.exists()) mFile.delete();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setOutputFile(mFile.getAbsolutePath());
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
         try{
             mRecorder.prepare();
         }
@@ -98,6 +148,7 @@ public class ASAudioService {
             log.e("prepare failed", ex);
         }
 
+        timer.start();
         mRecorder.start();
     }
 
@@ -105,31 +156,7 @@ public class ASAudioService {
         if(mRecorder == null) return;
         mRecorder.stop();
         mRecorder.reset();
-    }
-
-    public void setOnMaxRecordDurationReached(final IASEventListener e){
-        mRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
-            @Override
-            public void onInfo(MediaRecorder mr, int what, int extra) {
-                if(what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED){
-                    mRecorder.stop();
-                    if(e != null)
-                        e.Invoke();
-                }
-            }
-        });
-    }
-
-    public void setOnPlayCompletion(final IASEventListener e){
-        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.stop();
-                mp.reset();
-                if(e != null)
-                    e.Invoke();
-            }
-        });
+        timer.reset();
     }
 
     public void saveAs(String filename){
@@ -151,6 +178,7 @@ public class ASAudioService {
         log.d("Release recorder");
         mRecorder.release();
         mRecorder = null;
+        timer = null;
     }
-
+    //endregion
 }

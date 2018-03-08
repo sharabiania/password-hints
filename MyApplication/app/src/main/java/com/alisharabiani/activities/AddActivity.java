@@ -3,73 +3,26 @@ package com.alisharabiani.activities;
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import com.alisharabiani.classes.ASCountDownTimer;
 import com.alisharabiani.classes.Globals;
 import com.alisharabiani.classes.HintEntryDbHelper;
 import com.alisharabiani.classes.PasswordHintContract;
 import com.alisharabiani.R;
-import com.alisharabiani.interfaces.IASEventListener;
-import com.alisharabiani.services.ASAudioService;
+import com.alisharabiani.fragments.AudioControlFragment;
 
-public class AddActivity extends AppCompatActivity {
+
+public class AddActivity extends FragmentActivity implements AudioControlFragment.AudioControlEventListener{
 
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private boolean permissionToRecordAccepted = false;
-    private boolean mStartRecording = false;
-    private ASAudioService audioService;
-
-    private Button recBtn;
-    private Button playBtn;
     private Button addBtn;
-    private ASCountDownTimer timer;
-    private int defaultColor;
-
-
-    public void recordOnClick(View view) {
-        // TODO check for permissions.
-
-        mStartRecording = !mStartRecording;
-
-        if (mStartRecording) {
-
-            timer = new ASCountDownTimer((long) audioService.MaxDuration);
-            timer.setOnTickCallBack(new IASEventListener() {
-                @Override
-                public void Invoke() {
-                    recBtn.setText("Stop " + timer.currSecond);
-                }
-            });
-            timer.start();
-            recBtn.setText("Stop");
-            recBtn.setTextColor(Color.RED);
-            playBtn.setVisibility(View.INVISIBLE);
-            addBtn.setEnabled(false);
-            audioService.startRecording();
-        } else {
-            recBtn.setText("Record");
-            recBtn.setTextColor(defaultColor);
-            audioService.stopRecording();
-            timer.cancel();
-            playBtn.setVisibility(View.VISIBLE);
-            addBtn.setEnabled(true);
-        }
-    }
-
-    public void playOnClick(View v) {
-        playBtn.setEnabled(false);
-        recBtn.setEnabled(false);
-        recBtn.setAlpha(0.5f);
-        audioService.startPlaying();
-    }
 
     public void addOnClick(View view) {
         EditText accountEditText = (EditText) findViewById(R.id.accountEditText);
@@ -130,9 +83,8 @@ public class AddActivity extends AppCompatActivity {
                 setResult(RESULT_CANCELED);
             }
 
-            audioService.saveAs(Long.toString(newRowId));
-
-
+            AudioControlFragment acFrag = (AudioControlFragment) getSupportFragmentManager().findFragmentById(R.id.acFragment);
+            acFrag.saveAs(Long.toString(newRowId));
             finish();
         }
     }
@@ -151,46 +103,41 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_add_password);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
 
         AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.accountEditText);
-
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(adapter);
 
-        recBtn = (Button) this.findViewById(R.id.recordButton);
-        playBtn = (Button) this.findViewById(R.id.playButton);
-        addBtn = (Button) this.findViewById(R.id.addButton);
-
-        defaultColor = recBtn.getTextColors().getDefaultColor();
-
-        audioService = new ASAudioService(getApplicationContext());
-        audioService.setOnMaxRecordDurationReached(new IASEventListener() {
-            @Override
-            public void Invoke() {
-                recBtn.setTextColor(Color.BLACK);
-                recBtn.setText("Record");
-                mStartRecording = false;
-                playBtn.setVisibility(View.VISIBLE);
-                addBtn.setEnabled(true);
-            }
-        });
-        audioService.setOnPlayCompletion(new IASEventListener() {
-            @Override
-            public void Invoke() {
-                recBtn.setEnabled(true);
-                recBtn.setAlpha(1);
-                playBtn.setEnabled(true);
-            }
-        });
-
+        addBtn = (Button)findViewById(R.id.addButton);
     }
 
     @Override
     protected void onDestroy() {
-        audioService.destroy();
+
         super.onDestroy();
+    }
+
+    @Override
+    public void OnRecord() {
+        addBtn.setEnabled(false);
+    }
+
+    @Override
+    public void OnRecordCompleted() {
+        addBtn.setEnabled(true);
+    }
+
+    @Override
+    public void OnPlay() {
+        addBtn.setEnabled(false);
+    }
+
+    @Override
+    public void OnPlayCompleted() {
+        addBtn.setEnabled(true);
     }
 }
