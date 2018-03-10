@@ -43,6 +43,7 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
         accountTextView.setText(accountName);
 
         ImageButton btn = (ImageButton)view.findViewById(R.id.listPlayButton);
+
         final String stringID = Long.toString(id);
         if(audioService.hasAudio(stringID)) {
             btn.setVisibility(View.VISIBLE);
@@ -50,6 +51,7 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
                 @Override
                 public void onClick(View v) {
                     audioService.playFile(stringID);
+                    ((ImageButton)v).setImageResource(android.R.drawable.ic_media_pause);
                 }
             });
         }
