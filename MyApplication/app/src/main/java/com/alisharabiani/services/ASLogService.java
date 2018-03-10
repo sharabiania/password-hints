@@ -21,10 +21,11 @@ public class ASLogService {
         return Log.d(tag, message);
     }
 
+    public int w(String message) { return Log.w(tag, message); }
+
     public int e(String message) {
         return Log.e(tag, message);
     }
-
 
     public int e(String message, Throwable tr){
         return Log.e(tag, message, tr);

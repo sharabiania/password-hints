@@ -15,6 +15,7 @@ import com.alisharabiani.classes.Globals;
 import com.alisharabiani.classes.HintEntryDbHelper;
 import com.alisharabiani.classes.PasswordHintContract;
 import com.alisharabiani.R;
+import com.alisharabiani.classes.RecordModel;
 import com.alisharabiani.fragments.AudioControlFragment;
 
 
@@ -51,36 +52,15 @@ public class AddActivity extends FragmentActivity implements AudioControlFragmen
         if (isValid == true) {
 
             // Save to database.
+            RecordModel model = new RecordModel();
+            model.setServiceName(account);
+            model.setAccountName(username);
+            model.setPasswordHint(passwordHint);
             HintEntryDbHelper mDbHelper = new HintEntryDbHelper(getApplicationContext());
-
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-            // Create a new map of values, where column names are the keys
-            ContentValues values = new ContentValues();
-
-            values.put(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT, account);
-            values.put(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME, username);
-            values.put(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT, passwordHint);
-
-            // Insert the new row, returning the primary key value of the new row
-            // it returns -1 if an error has occurred
-            long newRowId;
-            newRowId = db.insert(
-                    PasswordHintContract.HintEntry.TABLE_NAME,
-                    null,
-                    values);
-
-            //Intent data = new Intent();
-
-            if (newRowId != -1) {
-                //data.putExtra(Globals.IS_SUCCESSFUL_INTENT_EXTRA, true);
-                //setResult(RESULT_OK, data);
-                setResult(RESULT_OK);
-            } else {
-                //data.putExtra(Globals.IS_SUCCESSFUL_INTENT_EXTRA, false);
-                //setResult(RESULT_CANCELED, data);
-                setResult(RESULT_CANCELED);
+            long newRowId = mDbHelper.insert(model);
+            if(newRowId == -1) {
+                // TODO show an error message to the user.
+                return;
             }
 
             AudioControlFragment acFrag = (AudioControlFragment) getSupportFragmentManager().findFragmentById(R.id.acFragment);
@@ -104,7 +84,7 @@ public class AddActivity extends FragmentActivity implements AudioControlFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_add_password);
+        setContentView(R.layout.activity_add);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
 

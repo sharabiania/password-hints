@@ -19,25 +19,23 @@ import android.widget.*;
 import com.alisharabiani.classes.*;
 import com.alisharabiani.services.*;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
-    AlertDialog.Builder alertDialogBuilder;
-
-    SimpleCursorAdapter dataAdapter;
-
     // The request code to start add a new row activity.
-    static final int ADD_ROW_REQUEST = 1;
-
+    private static final int ADD_ROW_REQUEST = 1;
     // The request code to start an update record activity.
-    static final int UPDATE_ROW_REQUEST = 2;
+    private static final int UPDATE_ROW_REQUEST = 2;
+    private static final String LOG_TAG = "AS_MainActivity";
 
+    private AlertDialog.Builder alertDialogBuilder;
+    private SimpleCursorAdapter dataAdapter;
+    private ASLogService log;
     private ASAudioService audioService;
-
-    Cursor cursor;
-
-    ListView listView;
-
-    HintEntryDbHelper mDbHelper;
+    private Cursor cursor;
+    private ListView listView;
+    private HintEntryDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         audioService = new ASAudioService(getApplicationContext());
+        log = new ASLogService(LOG_TAG);
         audioService.setOnPlayCompletion(null);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -145,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 alertDialogBuilder.setMessage(model.getAccountName());
                 alertDialogBuilder.create().show();
 
-
                 return true;
             }
         });
@@ -193,6 +191,16 @@ public class MainActivity extends AppCompatActivity {
         // Initialize the dialog builder.
         alertDialogBuilder = new AlertDialog.Builder(this);
 
+        // DEBUG
+        String[] files = fileList();
+        String[] cacheFiles = getCacheDir().list();
+        File[] c = getCacheDir().listFiles();
+
+        String fileList = "/Files/\n";
+        for(String item : files)
+            fileList += item + "\n";
+
+        log.i(fileList);
     }
 
     @Override

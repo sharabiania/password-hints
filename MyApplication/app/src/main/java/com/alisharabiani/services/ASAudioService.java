@@ -28,18 +28,17 @@ public class ASAudioService {
     private MediaPlayer mPlayer;
     private ASLogService log;
     private ASCountDownTimer timer;
+    private File mFile;
     //endregion
 
     //region Constructors
     public ASAudioService(Context context) {
-        c=context;
+        c = context;
         log = new ASLogService(LOG_TAG);
         mRecorder = new MediaRecorder();
         mRecorder.setMaxDuration(MaxDuration);
         mPlayer = new MediaPlayer();
-
         timer = new ASCountDownTimer((long) MaxDuration);
-
         timer.setOnFinishCallBack(new IASEventListener() {
             @Override
             public void Invoke() {
@@ -97,22 +96,39 @@ public class ASAudioService {
 
     public boolean deleteIfExists(String filename){
         File f = new File(c.getFilesDir(), filename + FileExtension);
-        if(f.exists())
+        if(f.exists()){
             return f.delete();
+        }
+        log.w("Delete File: " + filename + ": does not exist");
         return true;
     }
 
-    public void startPlaying(){
-        startPlaying(null);
+    public boolean deleteTempIfExists(){
+        File f = new File(c.getCacheDir(), TempFile);
+        if(f.exists()) return f.delete();
+        return true;
     }
 
-    public void startPlaying(String filename)  {
+    public void loadTemp(){
+        loadFile(null);
+    }
 
-        if(mPlayer.isPlaying()) {
+    public void playTemp(){
+        loadTemp();
+        mPlayer.start();
+    }
+
+    public void playFile(String fileName){
+        loadFile(fileName);
+        mPlayer.start();
+    }
+
+    public void loadFile(String filename){
+        if(mPlayer.isPlaying()){
             mPlayer.stop();
             mPlayer.reset();
         }
-        File mFile = null;
+
         if(filename==null) {
             mFile = new File(c.getCacheDir(), TempFile);
         }
@@ -126,16 +142,15 @@ public class ASAudioService {
         try{
             mPlayer.setDataSource(mFile.getAbsolutePath());
             mPlayer.prepare();
-            mPlayer.start();
         }
         catch(Exception ex){
-            log.e("Cannot play audio file", ex);
+            log.e("Cannot load audio file", ex);
         }
     }
 
     public void startRecording(){
         timer.reset();
-        File mFile = new File(c.getCacheDir(), TempFile);
+        mFile = new File(c.getCacheDir(), TempFile);
         if(mFile.exists()) mFile.delete();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -159,8 +174,12 @@ public class ASAudioService {
         timer.reset();
     }
 
+    /**
+     * Rename and move the temp audio file from the cache folder, to the files folder if exists.
+     * @param filename destination file name.
+     */
     public void saveAs(String filename){
-        // TODO Rename the audio file if exists
+
         File from = new File(c.getCacheDir(), TempFile);
         if(from.exists()){
             File to = new File(c.getFilesDir(), filename + FileExtension);

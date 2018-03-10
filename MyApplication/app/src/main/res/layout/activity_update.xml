@@ -63,5 +63,10 @@
             android:onClick="updateOnClick"
             android:maxLines="1"
     />
-
+    <fragment
+            android:name="com.alisharabiani.fragments.AudioControlFragment"
+            android:id="@+id/update_acFragment"
+            android:layout_below="@id/update_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 </RelativeLayout>

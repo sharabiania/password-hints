@@ -1,5 +1,6 @@
 package com.alisharabiani.activities;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +11,12 @@ import com.alisharabiani.classes.Globals;
 import com.alisharabiani.classes.HintEntryDbHelper;
 import com.alisharabiani.R;
 import com.alisharabiani.classes.RecordModel;
+import com.alisharabiani.fragments.AudioControlFragment;
 
-public class UpdateActivity extends AppCompatActivity {
+public class UpdateActivity extends FragmentActivity implements AudioControlFragment.AudioControlEventListener{
+
+    private AudioControlFragment acFrag;
+    private int recordId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +43,20 @@ public class UpdateActivity extends AppCompatActivity {
         serviceNameEditText.setText(recordModel.getServiceName());
         accountNameEditText.setText(recordModel.getAccountName());
         passwordHintEditText.setText(recordModel.getPasswordHint());
+        recordId = recordModel.getId();
+    }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        acFrag = (AudioControlFragment) getSupportFragmentManager().findFragmentById(R.id.update_acFragment);
+        acFrag.loadFile(String.valueOf(recordId));
     }
 
     public void updateOnClick(View view) {
         HintEntryDbHelper db = new HintEntryDbHelper(getApplicationContext());
 
-        int recordId = getIntent().getExtras().getInt(Globals.RECORD_ID_INTENT_EXTRA);
+        //int recordId = getIntent().getExtras().getInt(Globals.RECORD_ID_INTENT_EXTRA);
 
         EditText serviceNameEditText = (EditText) findViewById(R.id.service_name_id);
         EditText accountNameEditText = (EditText) findViewById(R.id.account_name_id);
@@ -86,8 +98,28 @@ public class UpdateActivity extends AppCompatActivity {
             else {
                 setResult(RESULT_CANCELED);
             }
-
+            acFrag.saveAs(Long.toString(recordId));
             finish();
         }
+    }
+
+    @Override
+    public void OnRecord() {
+
+    }
+
+    @Override
+    public void OnRecordCompleted() {
+
+    }
+
+    @Override
+    public void OnPlay() {
+
+    }
+
+    @Override
+    public void OnPlayCompleted() {
+
     }
 }

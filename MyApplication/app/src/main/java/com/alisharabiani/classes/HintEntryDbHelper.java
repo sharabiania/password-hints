@@ -6,13 +6,17 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.alisharabiani.services.ASLogService;
 
 /**
  * Created by Ali Sharabiani on 2016-08-11.
  */
 
 public class HintEntryDbHelper extends SQLiteOpenHelper {
-    // If you change the database schema, you must increment the database version.
+    private ASLogService log;
+    private static final String LOG_TAG = "AS_DbHelper";
+
+    // NOTE If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "PasswordHint.db";
 
@@ -33,6 +37,7 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
 
     public HintEntryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        log = new ASLogService(LOG_TAG);
     }
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
@@ -174,6 +179,42 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
             return true;
         }
         else return false;
+    }
+
+    public long insert(RecordModel model) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+
+        values.put(PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT, model.getServiceName());
+        values.put(PasswordHintContract.HintEntry.COLUMN_NAME_USERNAME, model.getAccountName());
+        values.put(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT, model.getPasswordHint());
+
+        // Insert the new row, returning the primary key value of the new row
+        // it returns -1 if an error has occurred
+        long newRowId;
+        newRowId = db.insert(
+                PasswordHintContract.HintEntry.TABLE_NAME,
+                null,
+                values);
+
+        //Intent data = new Intent();
+
+        if (newRowId == -1) {
+            String errorMessage = String.format("Could not create a new row: %s - %s - %s.",
+                    model.getServiceName(), model.getAccountName(), model.getPasswordHint());
+            log.e(errorMessage);
+        }
+        else{
+            String message = String.format("Create:%s %s - %s - %s.",
+                    Long.toString(newRowId),
+                    model.getServiceName(), model.getAccountName(), model.getPasswordHint());
+            log.i(message);
+        }
+
+        return newRowId;
     }
 }
 

@@ -18,8 +18,10 @@ public class AudioControlFragment extends Fragment {
     private ASAudioService audioService;
     private Button recBtn;
     private Button playBtn;
+    private Button removeBtn;
     private int defaultColor;
     private AudioControlEventListener callback;
+    private String loadedFilename;
 
     public interface AudioControlEventListener{
         void OnRecord();
@@ -44,12 +46,17 @@ public class AudioControlFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
+        /// Get the elements
         recBtn = (Button) getView().findViewById(R.id.recordButton);
         playBtn = (Button) getView().findViewById(R.id.playButton);
-        // TODO addBtn = (Button) getView().findViewById(R.id.addButton);
+        removeBtn = (Button) getView().findViewById(R.id.removeButton);
 
+        /// UI work
+        playBtn.setEnabled(false);
+        removeBtn.setVisibility(View.INVISIBLE);
         defaultColor = recBtn.getTextColors().getDefaultColor();
 
+        /// Setup audio service callbacks
         audioService = new ASAudioService(getActivity().getApplicationContext());
         audioService.setOnMaxRecordDurationReached(new IASEventListener() {
             @Override
@@ -67,6 +74,7 @@ public class AudioControlFragment extends Fragment {
                 recBtn.setEnabled(true);
                 recBtn.setAlpha(1);
                 playBtn.setEnabled(true);
+                removeBtn.setVisibility(View.VISIBLE);
                 callback.OnPlayCompleted();
             }
         });
@@ -78,31 +86,37 @@ public class AudioControlFragment extends Fragment {
             }
         });
 
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_audio_control, container, false);
-
-        // set button click events
-        view.findViewById(R.id.recordButton).setOnClickListener(new View.OnClickListener() {
+        /// set button click events
+        recBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recordOnClick(v);
             }
         });
 
-        view.findViewById(R.id.playButton).setOnClickListener(new View.OnClickListener() {
+        playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 playOnClick(v);
             }
         });
 
-        return view;
+        removeBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                removeOnClick(v);
+            }
+        });
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_audio_control, container, false);
     }
 
     @Override
@@ -129,13 +143,21 @@ public class AudioControlFragment extends Fragment {
     //endregion
 
     //region Methods
+    public void loadFile(String filename){
+        loadedFilename = filename;
+        playBtn.setEnabled(true);
+        removeBtn.setVisibility(View.VISIBLE);
+    }
+
     public void saveAs(String filename){
         audioService.saveAs(filename);
     }
+    //endregion
 
-    public void recordOnClick(View view) {
+    //region Helpers
+    private void recordOnClick(View view) {
         // TODO check for permissions.
-
+        loadedFilename = null;
         mStartRecording = !mStartRecording;
 
         if (mStartRecording) {
@@ -143,22 +165,40 @@ public class AudioControlFragment extends Fragment {
             recBtn.setText("Stop");
             recBtn.setTextColor(Color.RED);
             playBtn.setVisibility(View.INVISIBLE);
+            removeBtn.setVisibility(View.INVISIBLE);
             audioService.startRecording();
         } else {
             recBtn.setText("Record");
             recBtn.setTextColor(defaultColor);
             audioService.stopRecording();
             playBtn.setVisibility(View.VISIBLE);
+            removeBtn.setVisibility(View.VISIBLE);
+            playBtn.setEnabled(true);
             callback.OnRecordCompleted();
         }
     }
 
-    public void playOnClick(View v) {
+    private void playOnClick(View v) {
         callback.OnPlay();
         playBtn.setEnabled(false);
         recBtn.setEnabled(false);
         recBtn.setAlpha(0.5f);
-        audioService.startPlaying();
+        removeBtn.setVisibility(View.INVISIBLE);
+        if(loadedFilename == null)
+            audioService.playTemp();
+        else audioService.playFile(loadedFilename);
+    }
+
+    private void removeOnClick(View v){
+        removeBtn.setVisibility(View.INVISIBLE);
+        playBtn.setEnabled(false);
+        if(loadedFilename == null)
+            audioService.deleteTempIfExists();
+        else
+            audioService.deleteIfExists(loadedFilename);
+
+        loadedFilename = null;
+
     }
     //endregion
 }
