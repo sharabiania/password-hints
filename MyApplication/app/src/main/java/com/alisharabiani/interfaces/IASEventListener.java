@@ -5,4 +5,5 @@ package com.alisharabiani.interfaces;
  */
 public interface IASEventListener {
     void Invoke();
+    //void Invoke(Object param);
 }

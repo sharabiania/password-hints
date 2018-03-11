@@ -150,6 +150,9 @@ public class AudioControlFragment extends Fragment {
     }
 
     public void saveAs(String filename){
+        // TODO check it this is correct.
+        if(removeBtn.getVisibility() == View.INVISIBLE)
+            return;
         audioService.saveAs(filename);
     }
     //endregion

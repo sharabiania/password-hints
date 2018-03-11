@@ -2,10 +2,13 @@ package com.alisharabiani.classes;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.media.Image;
 import android.view.View;
 import android.widget.*;
 import com.alisharabiani.R;
+import com.alisharabiani.interfaces.IASEventListener;
 import com.alisharabiani.services.ASAudioService;
+
 
 /**
  * Created by Ali Sharabiani on 2016-09-19.
@@ -13,6 +16,7 @@ import com.alisharabiani.services.ASAudioService;
 public class ASListViewAdapter extends SimpleCursorAdapter {
 
     private ASAudioService audioService;
+    private ImageButton prevClicked;
 
     /**
      * Default constructor.
@@ -50,12 +54,26 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // reset previously clicked
+                    if(prevClicked != null) prevClicked.setImageResource(android.R.drawable.ic_media_play);
+                    prevClicked = (ImageButton) v;
+                    if(audioService.isPlaying())  {
+                        audioService.stopPlaying();
+                        return;
+                    }
+
+                    audioService.setOnPlayCompletion(new ASCallback(v){
+                        @Override
+                        public void run() {
+                            ImageButton v = (ImageButton) param;
+                            v.setImageResource(android.R.drawable.ic_media_play);
+                        }
+                    });
                     audioService.playFile(stringID);
                     ((ImageButton)v).setImageResource(android.R.drawable.ic_media_pause);
                 }
             });
         }
-
 
         ImageView icon = (ImageView)view.findViewById(R.id.image_view);
 

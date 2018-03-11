@@ -90,14 +90,15 @@ public class UpdateActivity extends FragmentActivity implements AudioControlFrag
             model.setAccountName(newAccountName);
             model.setPasswordHint(newHint);
 
-            boolean isSuccesful = db.update(recordId, model);
+            boolean isSuccessful = db.update(recordId, model);
 
-            if(isSuccesful) {
+            if(isSuccessful) {
                 setResult(RESULT_OK);
             }
             else {
                 setResult(RESULT_CANCELED);
             }
+
             acFrag.saveAs(Long.toString(recordId));
             finish();
         }

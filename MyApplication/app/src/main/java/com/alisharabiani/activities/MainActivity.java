@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         audioService = new ASAudioService(getApplicationContext());
         log = new ASLogService(LOG_TAG);
-        audioService.setOnPlayCompletion(null);
+        audioService.setOnPlayCompletion();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);

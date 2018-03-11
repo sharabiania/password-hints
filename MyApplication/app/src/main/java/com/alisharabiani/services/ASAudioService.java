@@ -3,6 +3,7 @@ package com.alisharabiani.services;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import com.alisharabiani.classes.ASCallback;
 import com.alisharabiani.classes.ASCountDownTimer;
 import com.alisharabiani.interfaces.IASEventListener;
 
@@ -68,6 +69,30 @@ public class ASAudioService {
         timer.cancel();
     }
 
+
+    public void setOnPlayCompletion(){
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.reset();
+            }
+        });
+    }
+
+
+    public void setOnPlayCompletion(final ASCallback callback){
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.reset();
+                if(callback != null)
+                    callback.run();
+            }
+        });
+    }
+
     public void setOnPlayCompletion(final IASEventListener e){
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -89,12 +114,24 @@ public class ASAudioService {
     //endregion
 
     //region Methods
+    public boolean isPlaying(){
+        return mPlayer.isPlaying();
+    }
+
+    public void stopPlaying(){
+        mPlayer.stop();
+        mPlayer.reset();
+    }
+
     public boolean hasAudio(String id){
         File f = new File(c.getFilesDir(), id + FileExtension);
         return f.exists();
     }
 
     public boolean deleteIfExists(String filename){
+        // stop if an audio is playing.
+        mPlayer.stop();
+        mPlayer.reset();
         File f = new File(c.getFilesDir(), filename + FileExtension);
         if(f.exists()){
             return f.delete();
@@ -104,6 +141,8 @@ public class ASAudioService {
     }
 
     public boolean deleteTempIfExists(){
+        mPlayer.stop();
+        mPlayer.reset();
         File f = new File(c.getCacheDir(), TempFile);
         if(f.exists()) return f.delete();
         return true;
