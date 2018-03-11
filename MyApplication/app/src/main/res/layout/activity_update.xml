@@ -14,14 +14,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/text_view"
-            android:text="Update your password hint record:\n\n"
+            android:text="Update your password hint record:"
+    />
+
+    <TextView
+            android:id="@+id/txtWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view"
+            android:text="@string/warning_message"
+            android:textStyle="italic"
+            android:textSize="10dp"
+            android:textColor="@color/lightGray"
     />
 
     <AutoCompleteTextView
         android:id="@+id/service_name_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view"
+        android:layout_below="@+id/txtWarning"
         android:maxLines="1"
         android:maxLength="@integer/service_name_max_length"
         android:hint="@string/service_label"

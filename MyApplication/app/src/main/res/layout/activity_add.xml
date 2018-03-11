@@ -15,26 +15,30 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add a new password hint:\n\n"
+            android:text="Add a new password hint:"
+    />
+
+    <TextView
+            android:id="@+id/txtWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView"
+            android:text="@string/warning_message"
+            android:textStyle="italic"
+            android:textSize="10dp"
+            android:textColor="@color/lightGray"
     />
 
     <AutoCompleteTextView
             android:id="@+id/accountEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/txtWarning"
             android:inputType="textNoSuggestions"
             android:hint="@string/service_label"
             android:maxLines="1"
             android:maxLength="@integer/service_name_max_length"
            />
-    <!--<AutoCompleteTextView-->
-            <!--android:id="@+id/accountEditText"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/textView"-->
-            <!--android:hint="dummy text"-->
-    <!--/>-->
 
     <EditText
             android:id="@+id/usernameEditText"

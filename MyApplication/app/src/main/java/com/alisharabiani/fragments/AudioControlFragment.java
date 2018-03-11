@@ -1,6 +1,10 @@
 package com.alisharabiani.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.Button;
 import com.alisharabiani.R;
 import android.content.Context;
@@ -11,8 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.alisharabiani.interfaces.IASEventListener;
 import com.alisharabiani.services.ASAudioService;
+import com.alisharabiani.services.ASLogService;
 
 public class AudioControlFragment extends Fragment {
+
+    private static final String LOG_TAG = "AS_AudioControlFrag";
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
 
     private boolean mStartRecording = false;
     private ASAudioService audioService;
@@ -23,6 +31,7 @@ public class AudioControlFragment extends Fragment {
     private AudioControlEventListener callback;
     private String loadedFilename;
 
+    private ASLogService log;
     public interface AudioControlEventListener{
         void OnRecord();
         void OnRecordCompleted();
@@ -40,6 +49,7 @@ public class AudioControlFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        log = new ASLogService(LOG_TAG);
     }
 
     @Override
@@ -140,6 +150,23 @@ public class AudioControlFragment extends Fragment {
         super.onDetach();
         callback = null;
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissionts[], int[] grantResults){
+        switch(requestCode){
+            case REQUEST_RECORD_AUDIO_PERMISSION:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted.
+                }
+                else{
+                    // permission denied.
+                    // TODO disable the functionality to record audio.
+
+                }
+                break;
+
+        }
+    }
     //endregion
 
     //region Methods
@@ -172,6 +199,10 @@ public class AudioControlFragment extends Fragment {
     //region Helpers
     private void recordOnClick(View view) {
         // TODO check for permissions.
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
+            return;
+        }
         loadedFilename = null;
         mStartRecording = !mStartRecording;
 

@@ -193,14 +193,17 @@ public class MainActivity extends AppCompatActivity {
 
         // DEBUG
         String[] files = fileList();
-        String[] cacheFiles = getCacheDir().list();
-        File[] c = getCacheDir().listFiles();
+        String[] dbList = databaseList();
 
-        String fileList = "/Files/\n";
+        String s = "/Files/\n";
         for(String item : files)
-            fileList += item + "\n";
+            s += item + "\n";
+        log.i(s);
 
-        log.i(fileList);
+        s = "/Databases/\n";
+        for(String item : dbList)
+            s += item + "\n";
+        log.i(s);
     }
 
     @Override

@@ -188,6 +188,7 @@ public class ASAudioService {
     }
 
     public void startRecording(){
+
         timer.reset();
         mFile = new File(c.getCacheDir(), TempFile);
         if(mFile.exists()) mFile.delete();
