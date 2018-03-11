@@ -143,10 +143,22 @@ public class AudioControlFragment extends Fragment {
     //endregion
 
     //region Methods
+
+    /**
+     * Loads file if exist and enable/disable the buttons.
+     * @param filename filename without extension.
+     */
     public void loadFile(String filename){
-        loadedFilename = filename;
-        playBtn.setEnabled(true);
-        removeBtn.setVisibility(View.VISIBLE);
+        if(audioService.hasAudio(filename)) {
+            loadedFilename = filename;
+            playBtn.setEnabled(true);
+            removeBtn.setVisibility(View.VISIBLE);
+        }
+        else{
+            loadedFilename = null;
+            playBtn.setEnabled(false);
+            removeBtn.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void saveAs(String filename){

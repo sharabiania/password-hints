@@ -1,14 +1,16 @@
 #TODO
-- Fix the incorrect first audio in the list view when deleting.
 - Backup data on google drive
-- Update account logos quality
 - Add more account types
+- Update account logos quality
 - Admob
-- Improve UI
+- Improve Audio Unit UI
+- Email all data as an excel file
 
 #In progress
 
+
 #Done
+- Fix incorrect audio in the list view when deleting. _(march 3, 2018)_
 - Remove audio from the Hint _(march 3, 2018)_
 - Update the recorded audio _(march 3, 2018)_
 - Timer for record

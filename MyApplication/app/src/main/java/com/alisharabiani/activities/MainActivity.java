@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
-                alertDialogBuilder.setPositiveButton("Edit", new DialogInterface.OnClickListener(){
+                alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener(){
                    public void onClick(DialogInterface dialogInterface, int which){
                        Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
                        RecordModel recordModel = mDbHelper.findById((int) id);
