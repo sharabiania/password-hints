@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // NOTE AdMob App ID here
-        MobileAds.initialize(this, "ca-app-pub-4535507724126037~9922632184");
+         MobileAds.initialize(this, getString(R.string.app_id));
+        // NOTE AdMob Hello World App ID
+        // MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
 
         audioService = new ASAudioService(getApplicationContext());
