@@ -1,5 +1,4 @@
 #To do
-- Fix incorrect play button in the list when adding multiple accounts
 - Firebase Integration
 - Add more account types
 - Update account logos quality
@@ -10,6 +9,7 @@
 
 
 #Done
+- Fix incorrect play button in the list when searching. _(march 12, 2018)_
 - Admob (march 11, 2018)
 - Request Audio Record permission. _(march 11, 2018)_
 - Backup data on google drive. _(march 11, 2018)_
