@@ -20,6 +20,8 @@ import android.widget.*;
 import com.passwordhints.classes.*;
 import com.passwordhints.services.ASAudioService;
 import com.passwordhints.services.ASLogService;
+import com.google.android.gms.ads.MobileAds;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // NOTE AdMob App ID here
+        MobileAds.initialize(this, "ca-app-pub-4535507724126037~9922632184");
+
 
         audioService = new ASAudioService(getApplicationContext());
         log = new ASLogService(LOG_TAG);

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import com.google.android.gms.ads.MobileAds;
 import com.passwordhints.classes.Globals;
 import com.passwordhints.classes.HintEntryDbHelper;
 import com.passwordhints.R;
@@ -80,8 +81,10 @@ public class AddActivity extends FragmentActivity implements AudioControlFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_add);
+        // TODO is this neccessary? or it should only be on MainActivity?
+        // NOTE AdMob App ID here
+        MobileAds.initialize(this, "ca-app-pub-4535507724126037~9922632184");
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
 
