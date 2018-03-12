@@ -1,4 +1,5 @@
-#TODO
+#To do
+- Fix incorrect play button in the list when adding multiple accounts
 - Add more account types
 - Update account logos quality
 - Improve Audio Unit UI
