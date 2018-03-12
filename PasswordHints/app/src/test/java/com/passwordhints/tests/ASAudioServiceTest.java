@@ -1,4 +1,4 @@
-package com.alisharabiani.tests;
+package com.passwordhints.tests;
 
 import android.content.Context;
 import com.passwordhints.services.ASAudioService;

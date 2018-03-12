@@ -9,7 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.passwordhints.classes.Globals;
 import com.passwordhints.classes.HintEntryDbHelper;
 import com.passwordhints.R;
@@ -22,6 +23,7 @@ public class AddActivity extends FragmentActivity implements AudioControlFragmen
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private boolean permissionToRecordAccepted = false;
     private Button addBtn;
+    private AdView mAdView;
 
     public void addOnClick(View view) {
         EditText accountEditText = (EditText) findViewById(R.id.accountEditText);
@@ -82,9 +84,10 @@ public class AddActivity extends FragmentActivity implements AudioControlFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        // TODO is this neccessary? or it should only be on MainActivity?
-        // NOTE AdMob App ID here
-        MobileAds.initialize(this, "ca-app-pub-4535507724126037~9922632184");
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
 
