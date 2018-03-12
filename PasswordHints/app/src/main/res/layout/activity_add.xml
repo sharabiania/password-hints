@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.alisharabiani.com.passwordhints.activities.AddActivity">
+
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add a new password hint:"
+    />
+
+    <TextView
+            android:id="@+id/txtWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView"
+            android:text="@string/warning_message"
+            android:textStyle="italic"
+            android:textSize="10dp"
+            android:textColor="@color/lightGray"
+    />
+
+    <AutoCompleteTextView
+            android:id="@+id/accountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtWarning"
+            android:inputType="textNoSuggestions"
+            android:hint="@string/service_label"
+            android:maxLines="1"
+            android:maxLength="@integer/service_name_max_length"
+           />
+
+    <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountEditText"
+            android:hint="@string/account_label"
+            android:maxLines="1"
+            android:maxLength="@integer/account_name_max_length"
+    />
+    <EditText
+            android:id="@+id/passwordHintEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/usernameEditText"
+            android:hint="Password Hint"
+            android:maxLines="1"
+            android:maxLength="@integer/hint_max_length"
+    />
+    <View
+        android:id="@+id/lineBreak"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:layout_below="@+id/passwordHintEditText"
+        />
+
+    <Button
+            android:id="@+id/addButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lineBreak"
+            android:text="Add"
+            android:onClick="addOnClick"
+            android:maxLines="1"
+    />
+    <fragment
+            android:name="com.passwordhints.fragments.AudioControlFragment"
+            android:id="@+id/acFragment"
+            android:layout_below="@id/addButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
+
+</RelativeLayout>
