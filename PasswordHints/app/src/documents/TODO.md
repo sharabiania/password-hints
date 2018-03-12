@@ -1,5 +1,6 @@
 #To do
 - Fix incorrect play button in the list when adding multiple accounts
+- Firebase Integration
 - Add more account types
 - Update account logos quality
 - Improve Audio Unit UI
