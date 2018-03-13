@@ -1,10 +1,11 @@
 #To do
-- Add more account types.
 - Update account logos quality.
 - Email all data as an excel file.
 - Firebase Integration.
 
 #In progress
+- Add more account types. _(march 12, 2018)_
+
 
 #Done
 - Improve Audio Unit UI. _(march 12, 2018)_

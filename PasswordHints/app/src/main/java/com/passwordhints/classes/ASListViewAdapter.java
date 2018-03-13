@@ -80,6 +80,12 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
             case "amazon":
                 icon.setImageResource(R.drawable.amazon);
                 break;
+            case "aeroplan":
+                icon.setImageResource(R.drawable.aeroplan);
+                break;
+            case "air miles":
+                icon.setImageResource(R.drawable.airmiles);
+                break;
             case "bitbucket":
                 icon.setImageResource(R.drawable.bitbucket);
                 break;

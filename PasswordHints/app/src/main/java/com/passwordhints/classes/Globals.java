@@ -17,7 +17,9 @@ public class Globals {
     public static final String PASSWORD_HINT_INTENT_EXTRA = "passwordHint";
 
     public static final String[] DEFAULT_SERVICES = {
+        "Aeroplan",
         "Amazon",
+        "AIR MILES",
         "Bitbucket",
         "EA Games",
         "eBay",
