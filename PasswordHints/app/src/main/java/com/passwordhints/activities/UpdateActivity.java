@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -19,6 +20,7 @@ public class UpdateActivity extends FragmentActivity implements AudioControlFrag
     private AudioControlFragment acFrag;
     private int recordId;
     private AdView mAdView;
+    private Button updateBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,8 @@ public class UpdateActivity extends FragmentActivity implements AudioControlFrag
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        updateBtn = (Button) findViewById(R.id.update_button);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
 
@@ -113,21 +117,21 @@ public class UpdateActivity extends FragmentActivity implements AudioControlFrag
 
     @Override
     public void OnRecord() {
-
+        updateBtn.setEnabled(false);
     }
 
     @Override
     public void OnRecordCompleted() {
-
+        updateBtn.setEnabled(true);
     }
 
     @Override
     public void OnPlay() {
-
+        updateBtn.setEnabled(false);
     }
 
     @Override
     public void OnPlayCompleted() {
-
+        updateBtn.setEnabled(true);
     }
 }
