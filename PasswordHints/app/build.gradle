@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "com.passwordhints"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 9
-        versionName "1.0.2"
+        versionName "1.0.3"
     }
     buildTypes {
         release {
