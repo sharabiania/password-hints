@@ -5,6 +5,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import com.passwordhints.R;
 import android.content.Context;
 import android.os.Bundle;
@@ -24,13 +26,13 @@ public class AudioControlFragment extends Fragment {
     private boolean mStartRecording = false;
     private ASAudioService audioService;
     private Button recBtn;
-    private Button playBtn;
-    private Button removeBtn;
-    private int defaultColor;
+    private ImageButton playBtn;
+    private ImageButton removeBtn;
+
     private AudioControlEventListener callback;
     private String loadedFilename;
-
     private ASLogService log;
+
     public interface AudioControlEventListener{
         void OnRecord();
         void OnRecordCompleted();
@@ -57,23 +59,24 @@ public class AudioControlFragment extends Fragment {
 
         /// Get the elements
         recBtn = (Button) getView().findViewById(R.id.recordButton);
-        playBtn = (Button) getView().findViewById(R.id.playButton);
-        removeBtn = (Button) getView().findViewById(R.id.removeButton);
+        playBtn = (ImageButton) getView().findViewById(R.id.playButton);
+        removeBtn = (ImageButton) getView().findViewById(R.id.removeButton);
+
 
         /// UI work
-        playBtn.setEnabled(false);
+        playBtn.setVisibility(View.INVISIBLE);
         removeBtn.setVisibility(View.INVISIBLE);
-        defaultColor = recBtn.getTextColors().getDefaultColor();
 
         /// Setup audio service callbacks
         audioService = new ASAudioService(getActivity().getApplicationContext());
         audioService.setOnMaxRecordDurationReached(new IASEventListener() {
             @Override
             public void Invoke() {
-                recBtn.setTextColor(Color.BLACK);
-                recBtn.setText("Record");
+                recBtn.setText("");
                 mStartRecording = false;
                 playBtn.setVisibility(View.VISIBLE);
+                playBtn.setEnabled(true);
+                removeBtn.setVisibility(View.VISIBLE);
                 callback.OnRecordCompleted();
             }
         });
@@ -81,7 +84,6 @@ public class AudioControlFragment extends Fragment {
             @Override
             public void Invoke() {
                 recBtn.setEnabled(true);
-                recBtn.setAlpha(1);
                 playBtn.setEnabled(true);
                 removeBtn.setVisibility(View.VISIBLE);
                 callback.OnPlayCompleted();
@@ -91,7 +93,7 @@ public class AudioControlFragment extends Fragment {
         audioService.setOnRecordTickCallback(new IASEventListener() {
             @Override
             public void Invoke() {
-                recBtn.setText("Stop " + audioService.getCurrentRecordTime());
+                recBtn.setText(String.valueOf(audioService.getCurrentRecordTime()));
             }
         });
 
@@ -178,11 +180,12 @@ public class AudioControlFragment extends Fragment {
         if(audioService.hasAudio(filename)) {
             loadedFilename = filename;
             playBtn.setEnabled(true);
+            playBtn.setVisibility(View.VISIBLE);
             removeBtn.setVisibility(View.VISIBLE);
         }
         else{
             loadedFilename = null;
-            playBtn.setEnabled(false);
+            playBtn.setVisibility(View.INVISIBLE);
             removeBtn.setVisibility(View.INVISIBLE);
         }
     }
@@ -207,14 +210,12 @@ public class AudioControlFragment extends Fragment {
 
         if (mStartRecording) {
             callback.OnRecord();
-            recBtn.setText("Stop");
-            recBtn.setTextColor(Color.RED);
+            recBtn.setVisibility(View.VISIBLE);
             playBtn.setVisibility(View.INVISIBLE);
             removeBtn.setVisibility(View.INVISIBLE);
             audioService.startRecording();
         } else {
-            recBtn.setText("Record");
-            recBtn.setTextColor(defaultColor);
+            recBtn.setText("");
             audioService.stopRecording();
             playBtn.setVisibility(View.VISIBLE);
             removeBtn.setVisibility(View.VISIBLE);
@@ -227,7 +228,6 @@ public class AudioControlFragment extends Fragment {
         callback.OnPlay();
         playBtn.setEnabled(false);
         recBtn.setEnabled(false);
-        recBtn.setAlpha(0.5f);
         removeBtn.setVisibility(View.INVISIBLE);
         if(loadedFilename == null)
             audioService.playTemp();
@@ -236,7 +236,7 @@ public class AudioControlFragment extends Fragment {
 
     private void removeOnClick(View v){
         removeBtn.setVisibility(View.INVISIBLE);
-        playBtn.setEnabled(false);
+        playBtn.setVisibility(View.INVISIBLE);
         if(loadedFilename == null)
             audioService.deleteTempIfExists();
         else
