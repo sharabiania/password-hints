@@ -1,9 +1,9 @@
 #To do
-- Firebase Integration
 - Add more account types
 - Update account logos quality
 - Improve Audio Unit UI
 - Email all data as an excel file
+- Firebase Integration
 
 #In progress
 
