@@ -5,8 +5,8 @@
 - Update the version code and version name (optional) in app-level build.gradle.
 
 ## Update the Ad units Ids
-- In `activity_add.xml` set `adUnitId="@string/unit_id_updateActivity"`.
-- In `activity_update.xml` set `adUnitId="@string/unit_id_updateActivity"`.
+- In `activity_add.xml` set `adUnitId="@string/aunit_id_addActivity"`.
+- In `activity_update.xml` set `adUnitId="@string/aunit_id_updateActivity"`.
 
 ## Generate signed APK
 - Use the key located in `src/signing/key.jks`.

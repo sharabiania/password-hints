@@ -47,6 +47,7 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
         ImageButton btn = (ImageButton)view.findViewById(R.id.listPlayButton);
 
         final String stringID = Long.toString(id);
+        btn.setVisibility(View.INVISIBLE);
         if(audioService.hasAudio(stringID)) {
             btn.setVisibility(View.VISIBLE);
             btn.setOnClickListener(new View.OnClickListener() {
