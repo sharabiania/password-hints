@@ -1,9 +1,10 @@
 #To do
-- Update account logos quality.
 - Email all data as an excel file.
 - Firebase Integration.
+- Logo in the auto complete input.
 
 #In progress
+- Update account logos quality. _(march 13, 2018)_
 - Add more account types. _(march 12, 2018)_
 
 
