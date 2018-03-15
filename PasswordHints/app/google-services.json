@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "256577200394",
+    "firebase_url": "https://password-hints.firebaseio.com",
+    "project_id": "password-hints",
+    "storage_bucket": "password-hints.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256577200394:android:89ab2f21105823f3",
+        "android_client_info": {
+          "package_name": "com.passwordhints"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256577200394-e2f3qm35bjs2ls3b58uf59ol86ok6t00.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.passwordhints",
+            "certificate_hash": "f8f727e17a557a3cee2a9ec6f9ccb7f76b4f26af"
+          }
+        },
+        {
+          "client_id": "256577200394-qh2uinq6eefu1vkmu5n46dj1ipvvm00j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvLN7yix-1_mi5AoVxG64CA1Xs0DsATyc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256577200394-qh2uinq6eefu1vkmu5n46dj1ipvvm00j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
