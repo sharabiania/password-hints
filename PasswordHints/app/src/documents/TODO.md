@@ -1,5 +1,4 @@
 #To do
-- Some empty space when scrolling to the bottom.
 - Email all data as an excel file.
 - Logo in the auto complete input.
 - Add more account types:
@@ -10,6 +9,7 @@
 
 
 #Done
+- Some empty space when scrolling to the bottom. _(march 14, 2018)_
 - Update account logos quality. _(march 13, 2018) (march 14, 2018)_
 - Firebase Integration. _(march 14, 2018)_
 - Improve Audio Unit UI. _(march 12, 2018)_
