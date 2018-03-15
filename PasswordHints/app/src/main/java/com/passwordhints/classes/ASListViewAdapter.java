@@ -142,6 +142,9 @@ public class ASListViewAdapter extends SimpleCursorAdapter {
             case "td bank":
                 icon.setImageResource(R.drawable.tdbank);
                 break;
+            case "transunion":
+                icon.setImageResource(R.drawable.transunion);
+                break;
             case "twitter":
                 icon.setImageResource(R.drawable.twitter);
                 break;

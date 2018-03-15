@@ -1,14 +1,17 @@
 #To do
+- Some empty space when scrolling to the bottom.
 - Email all data as an excel file.
-- Firebase Integration.
 - Logo in the auto complete input.
+- Add more account types:
+    - Presto
+- Sort order: e.x. customize by drag drop
 
 #In progress
-- Update account logos quality. _(march 13, 2018)_
-- Add more account types. _(march 12, 2018)_
 
 
 #Done
+- Update account logos quality. _(march 13, 2018) (march 14, 2018)_
+- Firebase Integration. _(march 14, 2018)_
 - Improve Audio Unit UI. _(march 12, 2018)_
 - Fix incorrect play button in the list when searching. _(march 12, 2018)_
 - Admob. _(march 11, 2018)_
