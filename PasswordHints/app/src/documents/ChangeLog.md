@@ -1,4 +1,11 @@
 #Change Log
+##1.1.0 - March 15, 2018
+##Changes
+- Added logos to the auto complete.
+- Integrated with Firebase.
+- High quality logos.
+
+
 
 ##1.0.4 - March 12, 2018
 ##Changes
