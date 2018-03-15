@@ -1,6 +1,5 @@
 #To do
 - Email all data as an excel file.
-- Logo in the auto complete input.
 - Add more account types:
     - Presto
 - Sort order: e.x. customize by drag drop
@@ -9,6 +8,7 @@
 
 
 #Done
+- Logo in the auto complete input. _(march 14, 2018) (march 15, 2018)_
 - Some empty space when scrolling to the bottom. _(march 14, 2018)_
 - Update account logos quality. _(march 13, 2018) (march 14, 2018)_
 - Firebase Integration. _(march 14, 2018)_

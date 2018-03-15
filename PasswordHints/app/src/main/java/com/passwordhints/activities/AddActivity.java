@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.passwordhints.classes.ASAutoCompleteAdapter;
 import com.passwordhints.classes.Globals;
 import com.passwordhints.classes.HintEntryDbHelper;
 import com.passwordhints.R;
 import com.passwordhints.classes.RecordModel;
 import com.passwordhints.fragments.AudioControlFragment;
+
+import java.util.Arrays;
 
 
 public class AddActivity extends FragmentActivity implements AudioControlFragment.AudioControlEventListener{
@@ -26,7 +29,7 @@ public class AddActivity extends FragmentActivity implements AudioControlFragmen
     private AdView mAdView;
 
     public void addOnClick(View view) {
-        EditText accountEditText = (EditText) findViewById(R.id.accountEditText);
+        AutoCompleteTextView accountEditText = (AutoCompleteTextView) findViewById(R.id.accountEditText);
         EditText usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         EditText passwordHintEditText = (EditText) findViewById(R.id.passwordHintEditText);
 
@@ -89,8 +92,8 @@ public class AddActivity extends FragmentActivity implements AudioControlFragmen
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
-
+        //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
+        ASAutoCompleteAdapter adapter = new ASAutoCompleteAdapter(this, Arrays.asList(Globals.DEFAULT_SERVICES));
         AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.accountEditText);
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(adapter);

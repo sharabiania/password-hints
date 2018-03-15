@@ -59,69 +59,57 @@ public class RecordModel {
         this.passwordHint = passwordHint;
     }
 
-    public int getIcon() {
-        if(serviceName == null || String.valueOf(serviceName) == "")
-            return -1;
+    public static int getIcon(String accountName) {
 
-        switch (serviceName.toLowerCase()){
+        switch (accountName.toLowerCase()){
             case "amazon":
                 return R.drawable.amazon;
-
+            case "aeroplan":
+                return R.drawable.aeroplan;
+            case "air miles":
+                return R.drawable.airmiles;
             case "bitbucket":
                 return R.drawable.bitbucket;
-
             case "ea games":
             case "electronic arts":
                 return R.drawable.eagames;
-
             case "ebay":
                 return R.drawable.ebay;
-
             case "facebook":
                 return R.drawable.facebook;
-
             case "github":
                 return R.drawable.github;
-
             case "gmail":
                 return R.drawable.gmail;
-
             case "godaddy":
                 return R.drawable.godaddy;
-
             case "google":
                 return R.drawable.google;
-
             case "ibm":
                 return R.drawable.ibm;
-
             case "instagram":
                 return R.drawable.instagram;
-
             case "microsoft":
                 return R.drawable.microsoft;
-
             case "msdn":
                 return R.drawable.msdn;
-
             case "msn":
                 return R.drawable.msn;
-
             case "oracle":
                 return R.drawable.oracle;
-
             case "rbc bank":
                 return R.drawable.rbc;
-
             case "scotiabank":
             case "scotia bank":
                 return R.drawable.scotiabank;
-
             case "stackoverflow":
                 return R.drawable.stackoverflow;
 
             case "td bank":
                 return R.drawable.tdbank;
+
+            case "transunion":
+                return R.drawable.transunion;
 
             case "twitter":
                 return R.drawable.twitter;
@@ -131,6 +119,7 @@ public class RecordModel {
 
             default:
                 return R.drawable.ic_lock_lock_alpha;
+
         }
     }
 

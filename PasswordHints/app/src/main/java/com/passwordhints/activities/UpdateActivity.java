@@ -9,11 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.passwordhints.classes.ASAutoCompleteAdapter;
 import com.passwordhints.classes.Globals;
 import com.passwordhints.classes.HintEntryDbHelper;
 import com.passwordhints.R;
 import com.passwordhints.classes.RecordModel;
 import com.passwordhints.fragments.AudioControlFragment;
+
+import java.util.Arrays;
 
 public class UpdateActivity extends FragmentActivity implements AudioControlFragment.AudioControlEventListener{
 
@@ -34,7 +37,8 @@ public class UpdateActivity extends FragmentActivity implements AudioControlFrag
 
         updateBtn = (Button) findViewById(R.id.update_button);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Globals.DEFAULT_SERVICES);
+        ASAutoCompleteAdapter adapter = new ASAutoCompleteAdapter(this, Arrays.asList(Globals.DEFAULT_SERVICES));
 
         AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.service_name_id);
 
