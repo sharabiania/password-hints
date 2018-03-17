@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,7 +6,24 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:buttonStyle">@style/AS_ButtonNormal</item>
+        <item name="android:textViewStyle">@style/AS_textViewStyle</item>
     </style>
+
+    <string name="AS_font">sans-serif-light</string>
+
+    <style name="AS_textViewStyle">
+        <item name="android:fontFamily">@string/AS_font</item>
+    </style>
+
+    <style name="AS_ButtonNormal" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/as_button</item>
+        <item name="android:shadowDx">10</item>
+        <item name="elevation">10dp</item>
+        <item name="android:fontFamily">@string/AS_font</item>
+    </style>
+
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
