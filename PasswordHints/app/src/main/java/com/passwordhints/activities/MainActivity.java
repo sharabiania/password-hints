@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 alertDialogBuilder.setCancelable(true);
                 RecordModel model = mDbHelper.findById((int) id);
-                alertDialogBuilder.setIcon(RecordModel.getIcon(model.getAccountName()));
+                alertDialogBuilder.setIcon(RecordModel.getIcon(model.getServiceName()));
                 alertDialogBuilder.setTitle(model.getServiceName());
                 alertDialogBuilder.setMessage(model.getAccountName());
                 alertDialogBuilder.create().show();
