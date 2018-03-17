@@ -1,4 +1,10 @@
 #Change Log
+##1.2.0 - March 17, 2018
+##Changes
+- UI update.
+##Fixes
+- Logo not showing up when long click items.
+
 ##1.1.0 - March 15, 2018
 ##Changes
 - Added logos to the auto complete.

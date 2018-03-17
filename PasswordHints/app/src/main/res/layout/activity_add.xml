@@ -4,10 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:padding="30dp"
         tools:context="com.passwordhints.activities.AddActivity">
 
 
@@ -15,7 +12,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add a new password hint:"
+            android:text="Add a new hint"
+            android:fontFamily="sans-serif-smallcaps"
     />
 
     <TextView
@@ -27,6 +25,7 @@
             android:textStyle="italic"
             android:textSize="11dp"
             android:textColor="@color/lightGray"
+            android:layout_margin="15dp"
     />
 
     <AutoCompleteTextView
@@ -38,7 +37,8 @@
             android:hint="@string/service_label"
             android:maxLines="1"
             android:maxLength="@integer/service_name_max_length"
-           />
+            android:fontFamily="@string/AS_font"
+    />
 
     <EditText
             android:id="@+id/usernameEditText"
@@ -48,6 +48,7 @@
             android:hint="@string/account_label"
             android:maxLines="1"
             android:maxLength="@integer/account_name_max_length"
+            android:fontFamily="@string/AS_font"
     />
     <EditText
             android:id="@+id/passwordHintEditText"
@@ -57,6 +58,8 @@
             android:hint="Password Hint"
             android:maxLines="1"
             android:maxLength="@integer/hint_max_length"
+            android:fontFamily="@string/AS_font"
+
     />
     <View
         android:id="@+id/lineBreak"
@@ -73,7 +76,7 @@
             android:text="Add"
             android:onClick="addOnClick"
             android:maxLines="1"
-    />
+       />
     <fragment
             android:name="com.passwordhints.fragments.AudioControlFragment"
             android:id="@+id/acFragment"

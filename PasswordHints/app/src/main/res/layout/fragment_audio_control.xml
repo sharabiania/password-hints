@@ -4,7 +4,8 @@
              android:layout_height="match_parent"
              tools:context="com.passwordhints.fragments.AudioControlFragment">
 
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="10dp">
 
 <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
 android:orientation="horizontal"
@@ -17,7 +18,8 @@ android:orientation="horizontal"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:src="@android:drawable/ic_delete"
-
+                 android:background="@drawable/as_circle_button"
+                 android:layout_margin="10dp"
     />
     <Button android:id="@+id/recordButton"
             android:layout_width="wrap_content"
@@ -25,14 +27,18 @@ android:orientation="horizontal"
             android:src="@android:drawable/ic_btn_speak_now"
             android:drawableLeft="@android:drawable/ic_btn_speak_now"
             android:text=""
-            android:textColor="#aa0000"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:background="@drawable/as_circle_button"
+            android:layout_margin="10dp"
     />
     <ImageButton
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_media_play"
-
+        android:background="@drawable/as_circle_button"
+        android:layout_margin="10dp"
     />
 
 

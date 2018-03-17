@@ -43,6 +43,9 @@
                     android:hint="Search by service name"
                     android:maxLines="1"
                     android:imeOptions="actionSearch"
+                    android:textSize="15dp"
+                    android:textStyle="italic"
+                    android:fontFamily="sans-serif-smallcaps"
             />
 
         </android.support.v7.widget.Toolbar>
