@@ -26,28 +26,6 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 >
 
-            <ImageView
-                    android:id="@+id/search_image"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_search"
-            />
-
-            <EditText
-                    android:id="@+id/myFilter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_toRightOf="@+id/search_image"
-                    android:ems="10"
-                    android:hint="Search by service name"
-                    android:maxLines="1"
-                    android:imeOptions="actionSearch"
-                    android:textSize="15dp"
-                    android:textStyle="italic"
-                    android:fontFamily="sans-serif-smallcaps"
-            />
-
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
