@@ -3,6 +3,13 @@
 - Add more account types:
     - Presto
 - Sort order: e.x. customize by drag drop
+- Add drawer menu:
+    - About
+    - Privacy Policy
+    - Sort
+        - Default
+        - A-Z
+        - Z-A
 
 #In progress
 
