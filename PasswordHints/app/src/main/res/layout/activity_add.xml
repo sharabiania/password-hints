@@ -4,85 +4,103 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="30dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="com.passwordhints.activities.AddActivity">
 
-
-    <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add a new hint"
-            android:fontFamily="sans-serif-smallcaps"
-    />
-
-    <TextView
-            android:id="@+id/txtWarning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView"
-            android:text="@string/warning_message"
-            android:textStyle="italic"
-            android:textSize="11dp"
-            android:textColor="@color/lightGray"
-            android:layout_margin="15dp"
-    />
-
-    <AutoCompleteTextView
-            android:id="@+id/accountEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtWarning"
-            android:inputType="textNoSuggestions"
-            android:hint="@string/service_label"
-            android:maxLines="1"
-            android:maxLength="@integer/service_name_max_length"
-            android:fontFamily="@string/AS_font"
-    />
-
-    <EditText
-            android:id="@+id/usernameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/accountEditText"
-            android:hint="@string/account_label"
-            android:maxLines="1"
-            android:maxLength="@integer/account_name_max_length"
-            android:fontFamily="@string/AS_font"
-    />
-    <EditText
-            android:id="@+id/passwordHintEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/usernameEditText"
-            android:hint="Password Hint"
-            android:maxLines="1"
-            android:maxLength="@integer/hint_max_length"
-            android:fontFamily="@string/AS_font"
-
-    />
-    <View
-        android:id="@+id/lineBreak"
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_below="@+id/passwordHintEditText"
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                android:title="Add"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
         />
 
-    <Button
-            android:id="@+id/addButton"
+
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lineBreak"
-            android:text="Add"
-            android:onClick="addOnClick"
-            android:maxLines="1"
-       />
-    <fragment
-            android:name="com.passwordhints.fragments.AudioControlFragment"
-            android:id="@+id/acFragment"
-            android:layout_below="@id/addButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:padding="30dp"
+            android:layout_below="@+id/my_toolbar">
+        <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add a new hint"
+                android:fontFamily="sans-serif-smallcaps"
+        />
+
+        <TextView
+                android:id="@+id/txtWarning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView"
+                android:text="@string/warning_message"
+                android:textStyle="italic"
+                android:textSize="11dp"
+                android:textColor="@color/lightGray"
+                android:layout_margin="15dp"
+        />
+
+        <AutoCompleteTextView
+                android:id="@+id/accountEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtWarning"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/service_label"
+                android:maxLines="1"
+                android:maxLength="@integer/service_name_max_length"
+                android:fontFamily="@string/AS_font"
+        />
+
+        <EditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/accountEditText"
+                android:hint="@string/account_label"
+                android:maxLines="1"
+                android:maxLength="@integer/account_name_max_length"
+                android:fontFamily="@string/AS_font"
+        />
+        <EditText
+                android:id="@+id/passwordHintEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/usernameEditText"
+                android:hint="Password Hint"
+                android:maxLines="1"
+                android:maxLength="@integer/hint_max_length"
+                android:fontFamily="@string/AS_font"
+
+        />
+        <View
+                android:id="@+id/lineBreak"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:layout_below="@+id/passwordHintEditText"
+        />
+
+        <Button
+                android:id="@+id/addButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lineBreak"
+                android:text="Add"
+                android:onClick="addOnClick"
+                android:maxLines="1"
+        />
+        <fragment
+                android:name="com.passwordhints.fragments.AudioControlFragment"
+                android:id="@+id/acFragment"
+                android:layout_below="@id/addButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 
     <com.google.android.gms.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -91,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            ads:adSize="LARGE_BANNER"
+            ads:adSize="SMART_BANNER"
             ads:adUnitId="@string/adunit_id_addActivity">
     </com.google.android.gms.ads.AdView>
 

@@ -2,13 +2,11 @@ package com.passwordhints.activities;
 
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.*;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.passwordhints.classes.ASAutoCompleteAdapter;
@@ -21,7 +19,7 @@ import com.passwordhints.fragments.AudioControlFragment;
 import java.util.Arrays;
 
 
-public class AddActivity extends FragmentActivity implements AudioControlFragment.AudioControlEventListener{
+public class AddActivity extends AppCompatActivity implements AudioControlFragment.AudioControlEventListener{
 
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private boolean permissionToRecordAccepted = false;
@@ -87,6 +85,12 @@ public class AddActivity extends FragmentActivity implements AudioControlFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+        //requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Add");
 
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
