@@ -1,6 +1,9 @@
 package com.passwordhints.activities;
 
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import com.passwordhints.BuildConfig;
 import com.passwordhints.R;
 import android.content.*;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Cursor cursor;
     private ListView listView;
     private HintEntryDbHelper mDbHelper;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // NOTE AdMob Hello World App ID
         // MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         audioService = new ASAudioService(getApplicationContext());
         log = new ASLogService(LOG_TAG);
@@ -58,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         mDbHelper = new HintEntryDbHelper(getApplicationContext());
         listView = (ListView) findViewById(R.id.listView1);
@@ -98,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setEmptyView(emptyView);
 
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
@@ -107,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // Get the password hint from this row in the database.
                 String hint = cursor.getString(cursor.getColumnIndexOrThrow(PasswordHintContract.HintEntry.COLUMN_NAME_PASSWORDHINT));
-                //Toast.makeText(getApplicationContext(), hint, Toast.LENGTH_SHORT).show();
 
                 View view1 = findViewById(R.id.coordinator_layout);
                 Snackbar snackbar = Snackbar.make(view1, hint, Snackbar.LENGTH_LONG);
@@ -195,6 +202,17 @@ public class MainActivity extends AppCompatActivity {
                 s += item + "\n";
             log.i(s);
         }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
