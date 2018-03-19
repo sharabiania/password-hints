@@ -4,6 +4,8 @@ package com.passwordhints.classes;
  */
 public class Globals {
 
+    public static final String PRIVACY_POLICY_URL = "https://sharabiania.github.io/password-hints-privacy-policy/";
+
     public static final String DATA_FILE_NAME = "data.txt";
 
     public static final String IS_SUCCESSFUL_INTENT_EXTRA = "isSuccessful";

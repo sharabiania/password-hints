@@ -2,6 +2,8 @@ package com.passwordhints.activities;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -18,7 +20,7 @@ import com.passwordhints.fragments.AudioControlFragment;
 
 import java.util.Arrays;
 
-public class UpdateActivity extends FragmentActivity implements AudioControlFragment.AudioControlEventListener{
+public class UpdateActivity extends AppCompatActivity implements AudioControlFragment.AudioControlEventListener{
 
     private AudioControlFragment acFrag;
     private int recordId;
@@ -29,7 +31,10 @@ public class UpdateActivity extends FragmentActivity implements AudioControlFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
