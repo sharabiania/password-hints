@@ -18,8 +18,6 @@
 - Integrated with Firebase.
 - High quality logos.
 
-
-
 ##1.0.4 - March 12, 2018
 ##Changes
 - Updated audio control UI.
@@ -27,7 +25,6 @@
 ##1.0.3 - March 12, 2018
 ### Fixes
 - Fixed and issue with the search where wrong play icons were shown.
-
 
 ##1.1.1 - September 22, 2016
 ### Fixes
