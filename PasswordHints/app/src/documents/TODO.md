@@ -6,6 +6,7 @@
 - Add more account types:
     - Presto
 - Sort order: e.x. customize by drag drop.
+- Update the store listing screenshots.
 
 
 #In progress
