@@ -58,7 +58,7 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
      */
     public Cursor getAllRows() {
 
-        return getAllRows(null);
+        return getAllRows(null, 0);
     }
 
     /**
@@ -67,7 +67,19 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
      * @return if search string is null, returns all rows; otherwise, the found records.
      * @throws SQLException
      */
-    public Cursor getAllRows(String inputText ) throws SQLException{
+    public Cursor getAllRows(String inputText, int sortOrder) throws SQLException{
+        String so = PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT;
+        switch (sortOrder){
+            case 0:
+                so = PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT;
+                break;
+            case 1:
+                so = PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT;
+                break;
+            case 2:
+                so = PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT + " DESC";
+                break;
+        }
         SQLiteDatabase mDb = getReadableDatabase();
         Cursor mCursor;
         if (inputText == null  ||  inputText.length () == 0)  {
@@ -83,7 +95,7 @@ public class HintEntryDbHelper extends SQLiteOpenHelper {
                     null,
                     null,
                     null,
-                    PasswordHintContract.HintEntry.COLUMN_NAME_ACCOUNT // Sort order.
+                    so// Sort order.
             );
 
         }

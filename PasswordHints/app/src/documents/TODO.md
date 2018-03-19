@@ -1,20 +1,18 @@
 #To do
-- Email all data as an excel file.
+
+- Rate the app.
+- Update the UI for the alert dialog.
+- Share: Email all data as an excel file.
 - Add more account types:
     - Presto
-- Sort order: e.x. customize by drag drop
-- Add drawer menu:
-    - About
-    - Privacy Policy
-    - Sort
-        - Default
-        - A-Z
-        - Z-A
+- Sort order: e.x. customize by drag drop.
+
 
 #In progress
 
-
 #Done
+- Sort alphabetically. _(march 18, 2018)_
+- Add drawer menu _(march 18, 2018)_
 - Logo in the auto complete input. _(march 14, 2018) (march 15, 2018)_
 - Some empty space when scrolling to the bottom. _(march 14, 2018)_
 - Update account logos quality. _(march 13, 2018) (march 14, 2018)_

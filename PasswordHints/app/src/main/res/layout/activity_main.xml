@@ -55,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Touch + button to start"
+                    android:text="No records found."
                     android:textStyle="bold"
                     android:textSize="25dp"
                     android:textAlignment="center"

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="com.passwordhints.activities.UpdateActivity">
 
     <android.support.v7.widget.Toolbar
@@ -16,8 +17,11 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             app:popupTheme="@style/AppTheme.PopupOverlay"
     />
-
-<RelativeLayout android:layout_width="match_parent"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/my_toolbar">
+            <RelativeLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/my_toolbar"
                 android:padding="30dp">
@@ -104,6 +108,8 @@
             android:layout_height="wrap_content"/>
 </RelativeLayout>
 
+    </ScrollView>
+
     <com.google.android.gms.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
@@ -115,3 +121,4 @@
             ads:adUnitId="@string/adunit_id_updateActivity">
     </com.google.android.gms.ads.AdView>
 </RelativeLayout>
+

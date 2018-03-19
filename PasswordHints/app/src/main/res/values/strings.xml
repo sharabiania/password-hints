@@ -9,6 +9,7 @@
     <string name="title_activity_about">About</string>
     <string name="close_button">Close</string>
     <string name="warning_message">Remember: do not enter your password.
-        Simply enter a hint that you can easily remember your actual password with.</string>
+        Simply enter a hint that you can easily remember your actual password with.
+    </string>
 
 </resources>

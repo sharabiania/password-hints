@@ -1,5 +1,8 @@
 package com.passwordhints.activities;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,7 +28,6 @@ import com.passwordhints.services.ASAudioService;
 import com.passwordhints.services.ASLogService;
 import com.google.android.gms.ads.MobileAds;
 
-
 public class MainActivity extends AppCompatActivity {
 
     // The request code to start add a new row activity.
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private HintEntryDbHelper mDbHelper;
     private DrawerLayout mDrawerLayout;
+    private int sortOrder = 0;
+    private String searchFilter = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
         // NOTE AdMob Hello World App ID
         // MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         audioService = new ASAudioService(getApplicationContext());
         log = new ASLogService(LOG_TAG);
         audioService.setOnPlayCompletion();
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -68,10 +72,39 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch(item.getTitle().toString()){
+                    case "Default":
+                        sortOrder = 0;
+                        item.setChecked(true);
+                        break;
+                    case "Z-A":
+                        sortOrder = 2;
+                        item.setChecked(true);
+                        break;
+                    case "Privacy Policy":
+                        item.setChecked(false);
+                        Intent intent = new Intent(MainActivity.this, PrivacyActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                mDrawerLayout.closeDrawers();
+                cursor = mDbHelper.getAllRows(searchFilter, sortOrder);
+                dataAdapter.swapCursor(cursor);
+                dataAdapter.getFilter().filter(searchFilter);
+                dataAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
         mDbHelper = new HintEntryDbHelper(getApplicationContext());
         listView = (ListView) findViewById(R.id.listView1);
-
-        cursor = mDbHelper.getAllRows();
+        cursor = mDbHelper.getAllRows(null, sortOrder);
 
         // Desired columns to be bound.
         String[] PROJECTION = new String[] {
@@ -167,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
-                return mDbHelper.getAllRows(constraint.toString());
+                return mDbHelper.getAllRows(constraint.toString(), sortOrder);
             }
         });
 
@@ -235,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 s = s.trim();
+                searchFilter = s;
                 if(s != "")
                     dataAdapter.getFilter().filter(s.toString());
                 return false;
@@ -266,12 +300,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
 }

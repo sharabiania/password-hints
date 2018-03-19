@@ -3,6 +3,7 @@
           package="com.passwordhints">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
             android:allowBackup="true"
@@ -23,23 +24,36 @@
         </activity>
 
         <!-- Add Activity -->
-        <activity android:name=".activities.AddActivity"
-                  android:parentActivityName=".activities.MainActivity">
+        <activity
+                android:name=".activities.AddActivity"
+                android:parentActivityName=".activities.MainActivity">
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".activities.MainActivity" />
+                    android:value=".activities.MainActivity"/>
         </activity>
 
-
         <!-- Update Activity -->
-        <activity android:name=".activities.UpdateActivity"
-        android:parentActivityName=".activities.MainActivity"
-        android:label="Update">
+        <activity
+                android:name=".activities.UpdateActivity"
+                android:label="Update"
+                android:parentActivityName=".activities.MainActivity">
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".activities.MainActivity" />
+                    android:value=".activities.MainActivity"/>
+        </activity>
+
+        <!-- Privacy Activity -->
+        <activity
+                android:name=".activities.PrivacyActivity"
+                android:parentActivityName=".activities.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".activities.MainActivity"/>
         </activity>
     </application>
 
