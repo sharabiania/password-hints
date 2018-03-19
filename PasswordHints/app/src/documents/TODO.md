@@ -1,6 +1,7 @@
 #To do
 
 - Rate the app.
+- User feedback message.
 - Update the UI for the alert dialog.
 - Share: Email all data as an excel file.
 - Add more account types:

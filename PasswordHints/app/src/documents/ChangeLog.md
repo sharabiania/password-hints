@@ -1,4 +1,11 @@
 #Change Log
+
+##1.3.0 - March 18, 2018
+##Changes
+- Layout update.
+- Sort order.
+- Privacy Policy added.
+
 ##1.2.0 - March 17, 2018
 ##Changes
 - UI update.
