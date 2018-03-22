@@ -1,5 +1,6 @@
 package com.passwordhints.activities;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
@@ -61,12 +62,17 @@ public class AddActivity extends AppCompatActivity implements AudioControlFragme
             long newRowId = mDbHelper.insert(model);
             if(newRowId == -1) {
                 // TODO show an error message to the user.
+                setResult(RESULT_CANCELED);
                 return;
             }
 
             AudioControlFragment acFrag = (AudioControlFragment) getSupportFragmentManager().findFragmentById(R.id.acFragment);
             acFrag.saveAs(Long.toString(newRowId));
+            setResult(RESULT_OK);
+
             finish();
+            return;
+
         }
     }
 

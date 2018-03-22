@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // TODO: suspect a memory leak:
+        // NOTE: onCreate gets called on S8+ before startActivityForResult
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -281,13 +284,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == ADD_ROW_REQUEST) {
             if(resultCode == RESULT_OK) {
-                //listView.setAdapter(buildDataAdapter(mDbHelper));
                 cursor = mDbHelper.getAllRows();
                 dataAdapter.swapCursor(cursor);
                 dataAdapter.notifyDataSetChanged();
-
-             //   listView.setAdapter(dataAdapter);
                 Toast.makeText(getApplicationContext(), "Record added.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Cancelled.", Toast.LENGTH_SHORT).show();
             }
         }
         else if(requestCode == UPDATE_ROW_REQUEST){
@@ -296,6 +299,9 @@ public class MainActivity extends AppCompatActivity {
                 dataAdapter.swapCursor(cursor);
                 dataAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(), "Record updated.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Cancelled.", Toast.LENGTH_SHORT).show();
             }
         }
     }
