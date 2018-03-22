@@ -121,6 +121,7 @@ public class UpdateActivity extends AppCompatActivity implements AudioControlFra
 
             acFrag.saveAs(Long.toString(recordId));
             finish();
+            return;
         }
     }
 
