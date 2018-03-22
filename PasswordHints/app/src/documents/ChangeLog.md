@@ -1,5 +1,9 @@
 #Change Log
 
+##1.3.1 - March 21, 2018
+##Fixes
+- List would not refresh after adding a new record.
+
 ##1.3.0 - March 18, 2018
 ##Changes
 - Layout update.
