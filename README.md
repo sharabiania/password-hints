@@ -1,6 +1,9 @@
 # Description
 Android app to store text and audio hints for passwords. Checkout the final working app on Google Play Store: https://play.google.com/store/apps/details?id=com.passwordhints
 
+# Build
+- Use Android Studio to build the project. (more instruction to come...)
+
 # Contribute
 Ways to contribute
 - Report issues
