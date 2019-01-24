@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ASAppRater.app_launched(this);
 
         // NOTE AdMob App ID here
          MobileAds.initialize(this, getString(R.string.app_id));
